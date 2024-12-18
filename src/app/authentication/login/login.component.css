@@ -1,0 +1,174 @@
+
+p{
+    color: #e71515;
+    font-size: 14px;
+  }
+.ng-invalid.ng-touched{
+   border-color: red;
+
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+.bg-img{
+  background: url('/assets/images/hero-img.jpg');
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+}
+.bg-img:after{
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,0.7);
+}
+.content{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 999;
+  border-radius: 20px;
+  text-align: center;
+  padding: 60px 32px;
+  width: 370px;
+  transform: translate(-50%,-50%);
+  background: rgba(255,255,255,0.04);
+  box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.6);
+}
+.content header{
+  color: white;
+  font-size: 33px;
+  font-weight: 600;
+  margin: 0 0 35px 0;
+  font-family: 'Montserrat',sans-serif;
+}
+.field{
+  position: relative;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  border-radius: 10px;
+  border: 1px solid #fff;
+}
+.field span{
+  color: rgb(15, 224, 67);
+  width: 40px;
+  line-height: 45px;
+}
+.field input{
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: rgb(15, 224, 67);
+  font-size: 16px;
+  font-family: 'Poppins',sans-serif;
+}
+.space{
+  margin-top: 16px;
+}
+.show{
+  position: absolute;
+  right: 13px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #222;
+  display: none;
+  cursor: pointer;
+  font-family: 'Montserrat',sans-serif;
+}
+.pass-key:valid ~ .show{
+  display: block;
+}
+.pass{
+  text-align: left;
+  margin: 10px 0;
+}
+.pass a{
+  color: white;
+  text-decoration: none;
+  font-family: 'Poppins',sans-serif;
+}
+.pass:hover a{
+  text-decoration: underline;
+}
+.btn {
+  background: linear-gradient(to left,  #11161a, rgb(15, 224, 67));
+  color: #fff;
+  font-size: 18px;
+  letter-spacing: 1px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  transition: 0.3s;
+  border: none;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+
+.btn:hover{
+  background: linear-gradient(to left,  rgb(15, 224, 67),#11161a);
+  transition: 0.3s;
+    border: none;
+    color:#fff;
+}
+.login{
+  color: white;
+  margin: 20px 0;
+  font-family: 'Poppins',sans-serif;
+}
+.links{
+  display: flex;
+  cursor: pointer;
+  color: white;
+  margin: 0 0 20px 0;
+}
+
+i span{
+  margin-left: 8px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  font-size: 16px;
+  font-family: 'Poppins',sans-serif;
+}
+.signup{
+  font-size: 15px;
+  color: white;
+  font-family: 'Poppins',sans-serif;
+}
+
+.loader {
+  border: 6px solid transparent;
+  border-top: 6px solid #039d2c;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+
+  animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1); /* Smooth animation */
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+.field input::placeholder {
+  color: #fff; /* Placeholder color */
+}
+
+
+.pass:hover{
+  color:#039d2c;
+  cursor: pointer;
+}

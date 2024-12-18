@@ -1,0 +1,25 @@
+.invoice-body{
+    width: 100%;
+    height: auto;
+    font-size: 8px;
+    font-family:"Open Sans", Sans-serif;
+}
+
+#leftbox {
+    float:left;
+    background:Red;
+    width:25%;
+    height:280px;
+}
+#middlebox{
+    float:left;
+    background:Green;
+    width:50%;
+    height:280px;
+}
+#rightbox{
+    float:right;
+    background:blue;
+    width:25%;
+    height:280px;
+}

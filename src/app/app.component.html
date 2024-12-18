@@ -1,0 +1,20 @@
+<ng-container *ngIf="isLoginPage(); else otherPageTemplate">
+  <app-login></app-login>
+</ng-container>
+
+
+<ng-template #otherPageTemplate>
+  <div id="pcoded" class="pcoded">
+    <div class="pcoded-overlay-box"></div>
+    <div class="pcoded-container navbar-wrapper">
+          <app-navbar></app-navbar>
+          <app-sidebar></app-sidebar>
+          <app-dashboard></app-dashboard>
+    </div>
+  </div>
+
+         
+        
+</ng-template>
+
+
