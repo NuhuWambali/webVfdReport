@@ -54,20 +54,19 @@ export class LoginComponent {
                       if (!response.token) {
                           this.handleError('Something went wrong.');
                       } else {
-                        this.authService.setAuthData('Bearer ' + response.token,response.id,response.branchId);
+                        console.log(response.token);
+                        this.authService.setAuthData('Bearer ' + response.token,response.companyId);
                          this.router.navigate([this.returnUrl]).then(() => {
                            this.reloadDashboard(); 
                           });
                       }
                   },
                   error: (err: HttpErrorResponse) => {
-                  
                       if (err.status === 404) {
                           this.handleError('User not found.');
                       } else if (err.status === 401) {
                           this.handleError('Wrong Username Or Password');
-                      } else if (err.status === 502) {
-                          
+                      } else if (err.status === 502) {         
                           this.handleError('Bad Gateway. Please try again later.');
                       } else if(err.status === 0){
                         this.handleError('No internet connection or network error');

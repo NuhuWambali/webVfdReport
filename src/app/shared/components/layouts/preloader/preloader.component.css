@@ -2,13 +2,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 70vh; /* Adjust based on the container size */
+    height: 40vh; /* Adjust based on the container size */
     
 }
 
 .loader {
     position:relative;
-    top:-2em;
+    top:-4em;
     border: 6px solid transparent; /* Transparent border */
     border-top: 6px solid green; /* Green border for the spinner */
     border-radius: 50%;

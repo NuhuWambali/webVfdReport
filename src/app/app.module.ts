@@ -3,27 +3,28 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './authentication/login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { NavbarComponent } from './shared/components/layouts/navbar/navbar.component';
+import { SidebarComponent } from './shared/components/layouts/sidebar/sidebar.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { JwtModule } from '@auth0/angular-jwt';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { SidebarComponent } from './shared/components/layouts/sidebar/sidebar.component';
-import { NavbarComponent } from './shared/components/layouts/navbar/navbar.component';
+import { LoginComponent } from './authentication/login/login.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
 }
 
+
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    SidebarComponent,
     NavbarComponent,
+    SidebarComponent,
     DashboardComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +32,7 @@ export function tokenGetter() {
     ReactiveFormsModule,
     RouterLink,
     HttpClientModule,
+    FormsModule,  
     AuthenticationModule,
     JwtModule.forRoot({
       config: {
@@ -39,7 +41,7 @@ export function tokenGetter() {
           disallowedRoutes: []
       }
   }),
-    
+  
   ],
   providers: [],
   bootstrap: [AppComponent]

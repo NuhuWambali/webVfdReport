@@ -62,6 +62,7 @@ export class AuthenticationService {
   public getAuthUserName = () => {
     const token = sessionStorage.getItem('token');
     const decodedToken = this.jwtHelper.decodeToken(this.token);
+    console.log('decoded token',decodedToken);
     if(decodedToken!=null){
       const username = decodedToken.username;
       return username;
@@ -70,13 +71,14 @@ export class AuthenticationService {
   }
 
 
-  setAuthData(token: string, userId: string,branchId:string) {
+  setAuthData(token: string, companyId:string) {
     this.authToken = token;
-    this.userId = userId;
-    this.branch_id = branchId;
+    // this.userId = userId;
+    // this.branch_id = companyId;
     sessionStorage.setItem('token', token);
-    sessionStorage.setItem('userId', userId);
-    localStorage.setItem('branch_id', branchId);
+    // sessionStorage.setItem('userId', userId);
+    localStorage.setItem('company_id', companyId);
+    
   }
 
 

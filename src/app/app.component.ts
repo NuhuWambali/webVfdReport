@@ -7,10 +7,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'webVfd-Report';
+  title = 'WebVfdReports';
+
   constructor(private router: Router,) {  }
 
   isLoginPage(): boolean {
     return this.router.url === '/authentication/login';
   }
+  
 }

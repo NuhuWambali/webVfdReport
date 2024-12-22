@@ -12,8 +12,8 @@
             {{ errorDetails}} 
           </h4>
         
-          <div *ngIf="loading" style="margin-left:120px;margin-bottom: 10px;" class="loader"></div>
-          <form  autocomplete="off"  novalidate (ngSubmit)="createLoginUser(loginForm.value)">
+          <div *ngIf="loading" style="margin-left:70px;position:relative;top:0.2em" class="loader"></div>
+          <form  autocomplete="off" [formGroup]="loginForm" novalidate (ngSubmit)="createLoginUser(loginForm.value)">
          
              <div class="field space">
                 <span class="fa fa-user"></span>

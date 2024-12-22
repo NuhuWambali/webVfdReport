@@ -1,0 +1,11 @@
+.pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.page-indicator {
+    margin-left: 15px;
+    font-size: 14px;
+    color: #555;
+}

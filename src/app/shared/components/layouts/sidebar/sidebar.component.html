@@ -1,118 +1,81 @@
 <!-- <?php $user_role = Auth::user()
     ->roles()
     ->first(); ?> -->
-<nav class="pcoded-navbar noPrint">
-    <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
-    <div class="pcoded-inner-navbar main-menu">
 
-        <div class="pcoded-navigation-label" data-i18n="nav.category.navigation"></div>
-
-        <!-- Dashboard Section -->
-        <ul class="pcoded-item pcoded-left-item">
-            <li class="active">
-                <a href="/dashboard" class="waves-effect waves-dark">
-                    <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                    <span class="pcoded-mtext" data-i18n="nav.dash.main">Dashboard</span>
-                </a>
-            </li>
-        </ul>
-
-        <!-- My Company Section -->
-        <!-- {{--  @if ($user_role->hasAnyPermission(['view-company', 'view-stores', 'view-warehouses', 'add-customer', 'edit-customers', 'view-customers', 'delete-customers', 'manage-customers']))  --}}
-        {{-- @if ($user_role->hasAnyPermission(['view-company'])) --}} -->
+    <nav class="pcoded-navbar noPrint">
+        <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
+        <div class="pcoded-inner-navbar main-menu">
+    
+            <div class="pcoded-navigation-label" data-i18n="nav.category.navigation"></div>
+    
+            <!-- Dashboard Section -->
+            <ul class="pcoded-item pcoded-left-item">
+                <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    <a [routerLink]="['/dashboard']" class="waves-effect waves-dark">
+                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Dashboard</span>
+                    </a>
+                </li>
+            </ul>
+    
+            <!-- My Company Section -->
             <div class="pcoded-navigation-label" data-i18n="nav.category.forms">My Company</div>
             <ul class="pcoded-item pcoded-left-item">
-                <!-- @if ($user_role->hasAnyPermission(['view-company'])) -->
-                    <li class="">
-                        <a href="/company-details" class="waves-effect waves-dark">
-                            <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                            <span class="pcoded-mtext"
-                                data-i18n="nav.form-components.main">Company Profile</span>
-                            <span class="pcoded-mcaret"></span>
-                        </a>
-                    </li>
-                <!-- @endif -->
-
-
-            </ul>
-        <!-- {{-- @endif --}} -->
-
-
-
-        <!--  Report -->
-        <!-- {{-- @if ($user_role->hasAnyPermission([
-            'view-sales-records',
-            'manage-advance-reports',
-            'manage-reports-and-analysis',
-        ])) --}} -->
-            <div class="pcoded-navigation-label" data-i18n="nav.category.other">Reports</div>
-            <ul class="pcoded-item pcoded-left-item">
-                <!-- {{--      @if ($user_role->hasAnyPermission(['view-sales-records', 'manage-reports-and-analysis', 'manage-advance-reports', 'manage-reports-and-analysis'])) --}}
-                {{-- @if ($user_role->hasAnyPermission(['manage-reports-and-analysis'])) --}} -->
-                    <li class="">
-                        <a href="/receipts-reports" class="waves-effect waves-dark">
-                            <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                            <span class="pcoded-mtext"
-                                data-i18n="nav.form-components.main">Sales Report</span>
-                            <span class="pcoded-mcaret"></span>
-                        </a>
-                    </li>
-                <!-- {{-- @endif --}} -->
-
-                <li class="">
-                    <a href="/sales-items" class="waves-effect waves-dark">
+                <li routerLinkActive="active" >
+                    <a [routerLink]="'/company-details'" class="waves-effect waves-dark">
                         <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                        <span class="pcoded-mtext"
-                            data-i18n="nav.form-components.main">Sales Items</span>
+                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">Company Profile</span>
                         <span class="pcoded-mcaret"></span>
                     </a>
                 </li>
-
-                 <!-- {{-- <li class="@if ($page == 'salesSummary') active @endif">
-                    <a href="/sales-summary" class="waves-effect waves-dark">
+            </ul>
+    
+            <!-- Reports Section -->
+            <div class="pcoded-navigation-label" data-i18n="nav.category.other">Reports</div>
+            <ul class="pcoded-item pcoded-left-item">
+                <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    <a [routerLink]="['/sales-reports/list']" class="waves-effect waves-dark">
                         <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                        <span class="pcoded-mtext"
-                            data-i18n="nav.form-components.main">Summary</span>
+                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">Sales Report</span>
                         <span class="pcoded-mcaret"></span>
                     </a>
-                </li>  --}} -->
-
-                <!-- {{--      @if ($user_role->hasAnyPermission(['view-zreports', 'manage-reports-and-analysis', 'manage-advance-reports', 'manage-reports-and-analysis'])) --}}
-                {{-- @if ($user_role->hasAnyPermission(['manage-reports-and-analysis'])) --}} -->
-                    <li class="">
-                        <a href="/z-reports" class="waves-effect waves-dark">
-                            <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                            <span class="pcoded-mtext"
-                                data-i18n="nav.form-components.main">Z Report</span>
-                            <span class="pcoded-mcaret"></span>
-                        </a>
-                    </li>
-                <!-- {{-- @endif --}} -->
-
-               <!-- @if ($user_role->hasAnyPermission(['manage-user'])) -->
-               <li class="">
-                   <a href="/users" class="waves-effect waves-dark">
-                       <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                       <span class="pcoded-mtext"
-                           data-i18n="nav.form-components.main">Users</span>
-                       <span class="pcoded-mcaret"></span>
-                   </a>
-               </li>
-               <!-- @endif -->
-
-               <!-- @if ($user_role->hasAnyPermission(['manage-user'])) -->
-               <li class="">
-                   <a href="/setting" class="waves-effect waves-dark">
-                       <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                       <span class="pcoded-mtext"
-                           data-i18n="nav.form-components.main">Setting</span>
-                       <span class="pcoded-mcaret"></span>
-                   </a>
-               </li>
-               <!-- @endif -->
-
+                </li>
+    
+                <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    <a [routerLink]="'/sales-items'" class="waves-effect waves-dark">
+                        <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">Sales Items</span>
+                        <span class="pcoded-mcaret"></span>
+                    </a>
+                </li>
+    
+                <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    <a [routerLink]="'/z-reports'" class="waves-effect waves-dark">
+                        <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">Z Report</span>
+                        <span class="pcoded-mcaret"></span>
+                    </a>
+                </li>
+    
+                <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    <a [routerLink]="'/users'" class="waves-effect waves-dark">
+                        <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">Users</span>
+                        <span class="pcoded-mcaret"></span>
+                    </a>
+                </li>
+    
+                <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    <a [routerLink]="'/setting'" class="waves-effect waves-dark">
+                        <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">Setting</span>
+                        <span class="pcoded-mcaret"></span>
+                    </a>
+                </li>
             </ul>
-        <!-- {{-- @endif --}} -->
+    
+        </div>
+    </nav>
+    
 
-    </div>
-</nav>
+    

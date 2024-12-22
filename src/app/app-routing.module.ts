@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
-  { path: 'dashboard', component:DashboardComponent},
+  { path: 'dashboard', component:DashboardComponent,canActivate: [AuthGuard]},
   { path: 'authentication', loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule) },
-  // { path: 'branches', loadChildren: () => import('./branch/branch.module').then(m => m.BranchModule) },
+  { path: 'sales-reports', loadChildren: () => import('./sales-reports/sales-reports.module').then(m => m.SalesReportsModule) },
   // { path: 'ports', loadChildren: () => import('./border-ports/port/port.module').then(m => m.PortModule) },
   // { path: 'borders', loadChildren: () => import('./border-ports/border/border.module').then(m => m.BorderModule) },
   // { path: 'device-category', loadChildren: () => import('./device-category/device-category.module').then(m => m.DeviceCategoryModule) },
@@ -21,7 +22,6 @@ const routes: Routes = [
   // { path: 'users', loadChildren: () => import('./users/users.module').then(m =>m.UsersModule) },
   // { path: 'users', component: UserListComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-
 ];
 
 @NgModule({
