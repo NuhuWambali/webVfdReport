@@ -4,22 +4,23 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/shared/services/authentication.service';
 import { ErrorHandlerService } from 'src/app/shared/services/error-handler.service';
-import { SalesItemsRepositoryService } from 'src/app/shared/services/sales-items.service';
 import { SalesReportRepositoryService } from 'src/app/shared/services/sales-report.service';
+import { ZReportRepositoryService } from 'src/app/shared/services/z-report.service';
 import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
 declare var $: any;
 
+
 @Component({
-  selector: 'app-sales-items-list',
-  templateUrl: './sales-items-list.component.html',
-  styleUrls: ['./sales-items-list.component.css']
+  selector: 'app-z-report-list',
+  templateUrl: './z-report-list.component.html',
+  styleUrls: ['./z-report-list.component.css']
 })
 
-export class SalesItemsListComponent {
-  isLoading: boolean = false;  // This controls the loader visibility
+export class ZReportListComponent {
+  isLoading: boolean = false;
   errorMessage: string = '';
-  salesItems: any;
+  zReports:any;
   selectedItems: any[] = [];
   token: string = '';
   loading: boolean = true;
@@ -31,34 +32,32 @@ export class SalesItemsListComponent {
   startDate: Date | null = null;
   endDate: Date | null = null;
   companyId: number = 0;
-  dateRangeForm!: FormGroup;
-
-  constructor(
-    private fb: FormBuilder,
-    private repository: SalesItemsRepositoryService,
+  dateRangeForm!: FormGroup ;
+  
+  constructor(private fb: FormBuilder,
+    private repository: ZReportRepositoryService,
     private authService: AuthenticationService,
     private errorHandler: ErrorHandlerService,
-    private router: Router, 
-    private activeRoute: ActivatedRoute,
-    private cdr: ChangeDetectorRef
-  ) {}
-
+    private router: Router, private activeRoute: ActivatedRoute,
+    private cdr: ChangeDetectorRef) { }
+ 
   ngOnInit(): void {
     this.isLoading = true;
+    // this.getAllSalesReportsFunction();
     this.loadPage(this.currentPage);
-
     this.dateRangeForm = this.fb.group({
       startDate: new FormControl(Date, [Validators.required]),
-      endDate: new FormControl(Date, [Validators.required]),
-      vatRate: new FormControl('', [Validators.required]),
+      endDate: new FormControl(Date, [Validators.required, ]),
     });
+  
   }
 
+  
   loadPage(page: number): void {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
     this.updateDisplayedPages();
-    this.getAllSalesItemsFunction(page, this.size);
+    this.getAllZReportsFunction(page, this.size);
   }
 
   updateDisplayedPages(): void {
@@ -72,18 +71,18 @@ export class SalesItemsListComponent {
     }
   }
 
-  private getAllSalesItemsFunction(page: number, size: number): void {
+
+  private getAllZReportsFunction(page: number, size: number): void {
     const companyId: string = localStorage.getItem('company_id') || '';
     if (!companyId) {
       console.error('Company ID not found in localStorage');
       return;
     }
-    this.isLoading = true;
-    const apiUrl = `api/v1/sales-items/${companyId}?page=${page}&size=${size}`;
-    this.repository.getAllSalesItems(apiUrl).subscribe({
+
+    const apiUrl = `api/v1/z-report/${companyId}?page=${page}&size=${size}`;
+    this.repository.getAllZReport(apiUrl).subscribe({
       next: (response: any) => {
-        this.salesItems = response.body.content;
-        this.isLoading = false;
+        this.zReports = response.body.content;
         this.totalPages = response.body.totalPages;
         this.updateDisplayedPages();
       },
@@ -92,10 +91,12 @@ export class SalesItemsListComponent {
       }
     });
   }
-
+  
+  
   onItemCheck(event: any, item: any): void {
     if (event.target.checked) {
       this.selectedItems.push(item);
+
     } else {
       this.selectedItems = this.selectedItems.filter(i => i !== item);
     }
@@ -103,11 +104,11 @@ export class SalesItemsListComponent {
 
   selectAll(event: any): void {
     if (event.target.checked) {
-      this.selectedItems = [...this.salesItems];
+      this.selectedItems = [...this.zReports];
     } else {
       this.selectedItems = [];
     }
-    this.salesItems.forEach((item: { selected: any; }) => (item.selected = event.target.checked));
+    this.zReports.forEach((item: { selected: any; }) => (item.selected = event.target.checked));
   }
 
   exportToExcel(): void {
@@ -115,7 +116,7 @@ export class SalesItemsListComponent {
       Swal.fire('No items selected', 'Please select at least 1 item to export.', 'warning');
       return;
     }
-
+  
     Swal.fire({
       title: 'Are you sure?',
       text: `You have selected ${this.selectedItems.length} item(s). Do you want to export them to Excel?`,
@@ -133,68 +134,66 @@ export class SalesItemsListComponent {
           hour: '2-digit',
           minute: '2-digit',
         });
-
+  
         // Title for the report
-        const reportTitle = [`Sales Report - ${currentDate}`];
-
+        const reportTitle = [`Z Report - ${currentDate}`];
+  
         // Column headers
         const columnHeaders = [
-          'Invoice No',
           'Z Number',
-          'Fiscal Code',
-          'Receipt Date',
-          'NET Amount',
-          'Tax Amount',
-          'Payment Amount',
-          'Vat Rate',
-          'Payment Type',
+          'DAILY_TOTAL_AMOUNT',
+          'GROSS',
+          'TICKETFISCAL',
+          'NET AMOUNT_A',
+          'TAX AMOUNT_A',
+          'NET AMOUNT_C',
+          'TAX AMOUNT_C',
+          'NET AMOUNT_E',
+          'TAX AMOUNT_E',
+         
         ];
-
+  
         // Format data for export
         const formattedData = this.selectedItems.map(item => [
-          item.referenceNo,
           item.znumber,
-          item.fiscalCode,
-          new Date(item.dateTime).toLocaleString('en-GB', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-          }),
-          Number(item.nettamount).toLocaleString(),
-          Number(item.taxamount).toLocaleString(),
-          Number(item.pmtamount).toLocaleString(),
-          item.vatrate,
-          item.pmttype,
+          Number(item.dailyTotalAMount).toLocaleString(),
+          item.gross,
+          item.ticketsFiscal,
+          Number(item.nettAmountA).toLocaleString(),
+          Number(item.taxAmountA).toLocaleString(),
+          Number(item.nettAmountC).toLocaleString(),
+          Number(item.taxAmountC).toLocaleString(),
+          Number(item.nettAmountE).toLocaleString(),
+          Number(item.taxAmountE).toLocaleString(),   
         ]);
-
+  
         // Combine title, column headers, and data into a single array
         const sheetData = [reportTitle, [], columnHeaders, ...formattedData];
-
+  
         // Create worksheet and workbook
         const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Sales Items');
-
+        XLSX.utils.book_append_sheet(wb, ws, 'Z Report');
+  
         // Style the title row
         ws['A1'].s = { font: { bold: true, sz: 14 }, alignment: { horizontal: 'center' } };
         ws['!merges'] = [
           { s: { r: 0, c: 0 }, e: { r: 0, c: columnHeaders.length - 1 } } // Merge title row
         ];
-
+  
         // Generate filename with current date
-        const fileName = `SalesItems_${currentDate.replace(/[:,\s]/g, '_')}.xlsx`;
-
+        const fileName = `zReport_${currentDate.replace(/[:,\s]/g, '_')}.xlsx`;
+  
         // Export to file
         XLSX.writeFile(wb, fileName);
-
+  
         Swal.fire('Exported!', 'Your file has been exported.', 'success');
       }
     });
   }
 
-  onSubmitDateRange(dateRangeForm: any): void {
+
+onSubmitDateRange(dateRangeForm: any): void {
     console.log('clicked');
     if (this.dateRangeForm.invalid) {
       Swal.fire({
@@ -228,35 +227,33 @@ export class SalesItemsListComponent {
       cancelButtonText: 'Cancel',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.searchByDateRange(backendStartDate, backendEndDate, vatRate); // Pass vatRate to backend
+        this.searchByDateRange(backendStartDate, backendEndDate); // Pass vatRate to backend
       }
     });
   }
   
-  searchByDateRange(startDate: string, endDate: string, vatRate?: string): void {
+  searchByDateRange(startDate: string, endDate: string): void {
     const companyId: string = localStorage.getItem('company_id') || '';
     if (!companyId) {
       console.error('Company ID not found in localStorage');
       return;
     }
     this.isLoading = true;
-    const apiUrl = `api/v1/search-items`;
-    console.log('vatRate',vatRate);
-  
-    this.repository.searchByDates(apiUrl, startDate, endDate, +companyId ,vatRate).subscribe({
+    const apiUrl = `api/v1/search-z-report`;  
+    this.repository.searchByDates(apiUrl, startDate, endDate, +companyId ).subscribe({
       next: (response: any) => {
         console.log('after search:', response.body);
-  
+        this.isLoading = true;
         // If the response directly returns an array, use it to set salesItems
-        this.salesItems = response.body; 
+        this.zReports = response.body; 
         this.isLoading = false;// This is the array, not content
-        console.log(this.salesItems);
+        console.log(this.zReports);
   
         this.totalPages = response.body.totalPages;
         this.updateDisplayedPages();
       },
       error: (err: HttpErrorResponse) => {
-        console.error('Error fetching sales items:', err.message);
+        console.error('Error fetching Z Report:', err.message);
       }
     });
   }
@@ -282,4 +279,13 @@ export class SalesItemsListComponent {
   
   
 
+  
+
+
+  
 }
+
+
+
+
+

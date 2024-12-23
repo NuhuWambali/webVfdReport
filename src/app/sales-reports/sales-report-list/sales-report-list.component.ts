@@ -17,6 +17,7 @@ declare var $: any;
 })
 
 export class SalesReportListComponent {
+  isLoading: boolean = false;  // This controls the loader visibility
   errorMessage: string = '';
   salesReports:any;
   selectedItems: any[] = [];
@@ -26,7 +27,7 @@ export class SalesReportListComponent {
   totalPages: number = 1;
   totalPagesArray: number[] = [];
   displayedPages: number[] = [];
-  size: number = 15;
+  size: number = 50;
   startDate: Date | null = null;
   endDate: Date | null = null;
   companyId: number = 0;
@@ -46,8 +47,7 @@ export class SalesReportListComponent {
 
   
   ngOnInit(): void {
-    this.loading = false;
-    // this.getAllSalesReportsFunction();
+    this.isLoading = true;  
     this.loadPage(this.currentPage);
     this.dateRangeForm = this.fb.group({
       startDate: new FormControl(Date, [Validators.required]),
@@ -228,8 +228,9 @@ export class SalesReportListComponent {
   // }
 
 
-  onSubmitDateRange(dateRangeForm:any): void {
-    console.log(dateRangeForm)
+
+onSubmitDateRange(dateRangeForm: any): void {
+    console.log('clicked');
     if (this.dateRangeForm.invalid) {
       Swal.fire({
         icon: 'error',
@@ -238,52 +239,86 @@ export class SalesReportListComponent {
       });
       return;
     }
-
-    const { startDate, endDate } = this.dateRangeForm.value;
-
+  
+    const { startDate, endDate, } = this.dateRangeForm.value; // Including vatRate
+  
+    // Convert the startDate and endDate to Date objects
+    const startDateObject = new Date(startDate);
+    const endDateObject = new Date(endDate);
+  
+    // Format the dates for display (DD/MM/YYYY format)
+    const formattedStartDate = this.formatDateForDisplay(startDateObject);
+    const formattedEndDate = this.formatDateForDisplay(endDateObject);
+  
+    // Send dates in DD/MM/YYYY format for the backend request
+    const backendStartDate = this.formatDateForBackend(startDateObject);
+    const backendEndDate = this.formatDateForBackend(endDateObject);
+  
     Swal.fire({
       title: 'Are you sure?',
-      text: `You are searching for receipts from ${startDate} to ${endDate}.`,
+      text: `You are searching for receipts from ${formattedStartDate} to ${formattedEndDate}.`,
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Yes, proceed',
       cancelButtonText: 'Cancel',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.searchByDateRange(startDate, endDate);
+        this.searchByDateRange(backendStartDate, backendEndDate); // Pass vatRate to backend
       }
     });
   }
-
-  searchByDateRange(startDate: Date, endDate: Date): void {
+  
+  searchByDateRange(startDate: string, endDate: string): void {
     const companyId: string = localStorage.getItem('company_id') || '';
     if (!companyId) {
       console.error('Company ID not found in localStorage');
       return;
     }
-
-    const apiUrl = `api/v1/sales-reports-dates-search`;
-    this.repository.searchByDates(apiUrl, startDate, endDate, +companyId).subscribe({
+    this.isLoading = true;
+    const apiUrl = `api/v1/sales-reports-dates-search`;  
+    this.repository.searchByDates(apiUrl, startDate, endDate, +companyId ).subscribe({
       next: (response: any) => {
-        this.salesReports = response.body.content;
+        console.log('after search:', response.body);
+  
+        // If the response directly returns an array, use it to set salesItems
+        this.salesReports = response.body; 
+        this.isLoading = false;// This is the array, not content
         console.log(this.salesReports);
+  
         this.totalPages = response.body.totalPages;
         this.updateDisplayedPages();
       },
       error: (err: HttpErrorResponse) => {
-        console.error('Error fetching sales report:', err.message);
+        console.error('Error fetching Sales Report:', err.message);
       }
     });
   }
+  
+  formatDateForDisplay(date: Date): string {
+    const d = new Date(date);
+    const day = ('0' + d.getDate()).slice(-2); // Ensure two digits for day
+    const month = ('0' + (d.getMonth() + 1)).slice(-2); // Ensure two digits for month, and months are 0-indexed
+    const year = d.getFullYear();
+  
+    return `${day}/${month}/${year}`;
+  }
+  
+  // Format the Date objects into DD/MM/YYYY format for backend request
+  formatDateForBackend(date: Date): string {
+    const d = new Date(date);
+    const day = ('0' + d.getDate()).slice(-2);
+    const month = ('0' + (d.getMonth() + 1)).slice(-2); // Ensure two digits for month
+    const year = d.getFullYear();
+  
+    return `${day}/${month}/${year}`; // DD/MM/YYYY format
+  }
+  
+  
 
+  
  
   
 
-
-
-  redirectToBranchList = () => {
-    this.router.navigate(['/sales-reports/list']);
-  }
 
   
 }

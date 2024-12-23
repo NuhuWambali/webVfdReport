@@ -5,7 +5,7 @@
             <div class="row align-items-center">
                 <div class="col-md-8">
                     <div class="page-header-title">
-                        <h5 class="m-b-10" style="font-size: 23px;">Receipts
+                        <h5 class="m-b-10" style="font-size: 23px;">Z
                             Reports</h5>
                         <p class="m-b-0">Welcome To WebVFD Portal</p>
                     </div>
@@ -20,7 +20,7 @@
                                 href="/dashboard">Dashboard</a>
                         </li>
                         <li class="breadcrumb-item"><a
-                                href="/receipts-reports">Receipts Reports</a>
+                                href="/receipts-reports">Z Reports</a>
                         </li>
                     </ul>
                 </div>
@@ -37,8 +37,8 @@
                     <!-- Basic table card start -->
                     <div class="card">
                         <div class="card-header">
-                            <h5>Receipts Reports Managemnet </h5>
-                            <span>In here you can view all receipts
+                            <h5>Z Reports Managemnet </h5>
+                            <span>In here you can view all Z
                                 reports</span>
                             <!-- <div class="card-header-right">
                                 <ul class="list-unstyled card-option">
@@ -108,49 +108,48 @@
                                 <table
                                     class="table table-hover table-striped table-sm"
                                     id="salesReportTable">
+                                    
                                     <div *ngIf="isLoading" class="loader-container ">
                                         <div class="spinner"></div>
                                     </div>
+
                                     <thead>
                                         <tr>
                                             <th>
                                                 <input type="checkbox" (change)="selectAll($event)" />
                                             </th>
-                                            <th>Invoice No</th>
-                                            <th>Z Number</th>
-                                            <th>Fiscal Code</th>
-                                            <th>Receipt Date</th>
-                                            <th>NET Amount</th>
-                                            <th>Tax Amount</th>
-                                            <th>Payment Amount</th>
-                                            <th>Customer Name</th>
-                                            <th>Customer Id</th>
-                                            <th class="text-center">Action</th>
+                                            <th>ZNumber</th>
+                                            <th>DAILY_TOTAL_AMOUNT</th>
+                                            <th>GROSS</th>
+                                            <th>TICKETFISCAL</th>
+                                            <th>NET AMOUNT_A</th>
+                                            <th>TAX AMOUNT_A</th>
+                                            <th>NET AMOUNT_C</th>
+                                            <th>TAX AMOUNT_C</th>
+                                            <th>NET AMOUNT_E</th>
+                                            <th>TAX AMOUNT_E</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let salesReport of salesReports; let index = index">
+                                        <tr *ngFor="let zReport of zReports; let index = index">
                                             <td>
                                                 <input 
                                                     type="checkbox" 
-                                                    [value]="salesReport" 
-                                                    (change)="onItemCheck($event, salesReport)" 
-                                                    [checked]="selectedItems.includes(salesReport)" />
+                                                    [value]="zReport" 
+                                                    (change)="onItemCheck($event, zReport)" 
+                                                    [checked]="selectedItems.includes(zReport)" />
                                             </td>
-                                            <td>{{ salesReport.referenceNo }}</td>
-                                            <td>{{ salesReport.znumber }}</td>
-                                            <td>{{ salesReport.fiscalCode }}</td>
-                                            <td>{{ salesReport.dateTime | date: 'dd MMMM yyyy, HH:mm' }}</td>
-                                            <td>{{ salesReport.totalAmountTaxEx | number: '1.2-2' }}</td>
-                                            <td>{{ salesReport.totalTaxAmount | number: '1.2-2' }}</td>
-                                            <td>{{ salesReport.totalAmountTaxInc | number: '1.2-2' }}</td>
-                                            <td>{{ salesReport.customername }}</td>
-                                            <td>{{ salesReport.customerID }}</td>
-                                            <td class="text-center">
-                                                <a href="{{salesReport.qrCode}}" target="_blank" rel="noopener noreferrer">
-                                                    <button class="btn btn-success btn-sm">Receipt</button>
-                                                </a>
-                                            </td>
+                                            <td>{{ zReport.znumber }}</td>
+                                            <td>{{ zReport.dailyTotalAmount | number: '1.2-2'}}</td>
+                                            <td>{{ zReport.gross }}</td>
+                                            <td>{{ zReport.ticketsFiscal }}</td>
+                                            <td>{{ zReport.nettAmountA | number: '1.2-2' }}</td>
+                                            <td>{{ zReport.taxAmountA | number: '1.2-2' }}</td>
+                                            <td>{{ zReport.nettAmountC | number: '1.2-2' }}</td>
+                                            <td>{{ zReport.taxAmountC | number: '1.2-2' }}</td> 
+                                            <td>{{ zReport.nettAmountE | number: '1.2-2' }}</td>
+                                            <td>{{ zReport.taxAmountE | number: '1.2-2' }}</td>
+                                           
                                         </tr>
                                     </tbody>
                                 </table>

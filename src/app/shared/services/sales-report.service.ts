@@ -24,13 +24,18 @@ export class SalesReportRepositoryService {
     return this.http.get<any>(this.createCompleteRoute(route, this.envUrl.urlAddress),{params,headers,observe: 'response' });
   }
 
-  public searchByDates = (route: string, startDate: Date, endDate: Date, companyId: number) => {
-    const requestBody = {
+  
+  public searchByDates = (route: string, startDate: string, endDate: string, companyId: number,) => {
+
+    const requestBody: any = {
       companyId,
-      startDate: startDate, // Convert to ISO string
-      endDate: endDate     // Convert to ISO string
+      startDate,
+      endDate,
     };
-    const headers = this.Getheaders; // Ensure headers are configured properly
+  
+ 
+    const headers = this.Postheaders; 
+  
     return this.http.post<any>(this.createCompleteRoute(route, this.envUrl.urlAddress), requestBody, { headers, observe: 'response' });
   };
 
