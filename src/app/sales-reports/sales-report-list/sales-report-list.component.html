@@ -5,7 +5,7 @@
             <div class="row align-items-center">
                 <div class="col-md-8">
                     <div class="page-header-title">
-                        <h5 class="m-b-10" style="font-size: 23px;">Receipts
+                        <h5 class="m-b-10" style="font-size: 23px;">Sales
                             Reports</h5>
                         <p class="m-b-0">Welcome To WebVFD Portal</p>
                     </div>
@@ -20,7 +20,7 @@
                                 href="/dashboard">Dashboard</a>
                         </li>
                         <li class="breadcrumb-item"><a
-                                href="/receipts-reports">Receipts Reports</a>
+                                href="/receipts-reports">Sales Reports</a>
                         </li>
                     </ul>
                 </div>
@@ -37,8 +37,8 @@
                     <!-- Basic table card start -->
                     <div class="card">
                         <div class="card-header">
-                            <h5>Receipts Reports Managemnet </h5>
-                            <span>In here you can view all receipts
+                            <h5>Sales Reports Managemnet </h5>
+                            <span>In here you can view all Sales
                                 reports</span>
                             <!-- <div class="card-header-right">
                                 <ul class="list-unstyled card-option">
@@ -144,7 +144,7 @@
                                             <td>{{ salesReport.totalAmountTaxEx | number: '1.2-2' }}</td>
                                             <td>{{ salesReport.totalTaxAmount | number: '1.2-2' }}</td>
                                             <td>{{ salesReport.totalAmountTaxInc | number: '1.2-2' }}</td>
-                                            <td>{{ salesReport.customername }}</td>
+                                            <td>{{ salesReport.customerName }}</td>
                                             <td>{{ salesReport.customerID }}</td>
                                             <td class="text-center">
                                                 <a href="{{salesReport.qrCode}}" target="_blank" rel="noopener noreferrer">

@@ -77,7 +77,7 @@ export class AuthenticationService {
     // this.branch_id = companyId;
     sessionStorage.setItem('token', token);
     // sessionStorage.setItem('userId', userId);
-    localStorage.setItem('company_id', companyId);
+    sessionStorage.setItem('company_id', companyId);
     
   }
 

@@ -3,6 +3,7 @@ import { Component, ElementRef, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/shared/services/authentication.service';
+import { UserService } from 'src/app/shared/services/user.service';
 import { Login } from 'src/interfaces/authentication/login.model';
 import { loginResponse } from 'src/interfaces/response/loginResponse.model';
 
@@ -21,6 +22,7 @@ export class LoginComponent {
       errorDetails: any;
       constructor(
               private authService:AuthenticationService,
+              private userRepoService:UserService,
               private el: ElementRef,
               private router: Router, private route: ActivatedRoute,
               private renderer: Renderer2,
@@ -56,6 +58,7 @@ export class LoginComponent {
                       } else {
                         console.log(response.token);
                         this.authService.setAuthData('Bearer ' + response.token,response.companyId);
+                        this.userRepoService.setUSerDetails(response.companyName,response.companyTin,response.packageName);
                          this.router.navigate([this.returnUrl]).then(() => {
                            this.reloadDashboard(); 
                           });

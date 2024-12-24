@@ -10,7 +10,6 @@ export class SalesReportRepositoryService {
   constructor(private http: HttpClient, private envUrl: EnvironmentUrlService) { }
   token = sessionStorage.getItem('token')??'';
 
-
   Postheaders = new HttpHeaders()
   .set('Authorization', this.token)
   .set('Content-Type', 'application/json');

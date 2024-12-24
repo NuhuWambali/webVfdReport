@@ -45,6 +45,7 @@ export class ZReportListComponent {
     this.isLoading = true;
     // this.getAllSalesReportsFunction();
     this.loadPage(this.currentPage);
+    this.isLoading = false;
     this.dateRangeForm = this.fb.group({
       startDate: new FormControl(Date, [Validators.required]),
       endDate: new FormControl(Date, [Validators.required, ]),
@@ -78,7 +79,6 @@ export class ZReportListComponent {
       console.error('Company ID not found in localStorage');
       return;
     }
-
     const apiUrl = `api/v1/z-report/${companyId}?page=${page}&size=${size}`;
     this.repository.getAllZReport(apiUrl).subscribe({
       next: (response: any) => {
@@ -92,7 +92,7 @@ export class ZReportListComponent {
     });
   }
   
-  
+
   onItemCheck(event: any, item: any): void {
     if (event.target.checked) {
       this.selectedItems.push(item);
@@ -101,6 +101,8 @@ export class ZReportListComponent {
       this.selectedItems = this.selectedItems.filter(i => i !== item);
     }
   }
+
+
 
   selectAll(event: any): void {
     if (event.target.checked) {
@@ -194,7 +196,7 @@ export class ZReportListComponent {
 
 
 onSubmitDateRange(dateRangeForm: any): void {
-    console.log('clicked');
+  this.isLoading = true;
     if (this.dateRangeForm.invalid) {
       Swal.fire({
         icon: 'error',
@@ -227,7 +229,8 @@ onSubmitDateRange(dateRangeForm: any): void {
       cancelButtonText: 'Cancel',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.searchByDateRange(backendStartDate, backendEndDate); // Pass vatRate to backend
+        this.searchByDateRange(backendStartDate, backendEndDate); 
+        this.isLoading = false;
       }
     });
   }
@@ -243,7 +246,6 @@ onSubmitDateRange(dateRangeForm: any): void {
     this.repository.searchByDates(apiUrl, startDate, endDate, +companyId ).subscribe({
       next: (response: any) => {
         console.log('after search:', response.body);
-        this.isLoading = true;
         // If the response directly returns an array, use it to set salesItems
         this.zReports = response.body; 
         this.isLoading = false;// This is the array, not content

@@ -15,8 +15,8 @@
                         <h4 class="text-light mt-2 text-uppercase">
                            <!-- <?php 
                            if($company->trade_name_status=='1'){ --> 
-                           Web Corporation Limited
-                                    <span class='text-danger'>(PREMIUM Package)</span>TIN 105875304
+                           {{this.companyName}}
+                                    <span class='text-danger'>({{this.packageName}})</span>TIN {{this.companyTin}}
                                     <!-- )";
                             } -->
                                    
@@ -54,10 +54,10 @@
                             <i class="fa fa-map-pin"></i> Livingstone/Msimbazi Street, Al Falah (KFC) Building, Fourth Floor
                         </li>                  
                         <li class="waves-effect waves-light">
-                            <i class="fa fa-envelope" style="font-size: 12px;"></i> Email
+                            <i class="fa fa-envelope" style="font-size: 12px;"></i> Email info@webtechnologies.co.tz
                         </li>
                         <li class="waves-effect waves-light">
-                            <i class="fa fa-mobile" style="font-size: 16px;"></i>Phone Number
+                            <i class="fa fa-mobile" style="font-size: 16px;"></i>Phone Number +255 765 222 444
                         </li>                   
                         <li class="waves-effect waves-light">
                             <i class="fa fa-mobile" style="font-size: 16px;"></i> Mobile (Office): +255 765 222 444 | +255 656 222 444 (24 hours calls accepted)
@@ -71,7 +71,7 @@
                 <li class="user-profile header-notification  ml-3" style="margin-top:1.3em">
                     <h6 class="waves-effect waves-light">
                         <!-- {{-- <img src="assets/images/avatar-4.jpg" class="img-radius" alt=""> --}} -->
-                        <span class="text-white"><i class="fa fa-user-circle-o" style="font-size: 16px;"></i>{{this.username}}</span>
+                        <span class="text-white"><i class="fa fa-user-circle-o mr-2" style="font-size: 16px;"></i>{{this.username}}</span>
                         <i class="ti-angle-down" style="margin-left: 3px;"></i>
                     </h6>
                     <ul class="show-notification profile-notification">
@@ -89,7 +89,7 @@
                         </li>            
                         <li class="waves-effect waves-light">
                             <a  class="text-light text-center m-2 p-2 bg-primary">
-                                <i class="fa fa-sign-out"></i> Logout
+                                <i class="fa fa-sign-out"  (click)="logout()"></i> Logout
                             </a>
                         </li>
                     </ul>

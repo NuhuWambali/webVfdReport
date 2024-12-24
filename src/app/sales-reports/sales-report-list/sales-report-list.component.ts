@@ -49,6 +49,7 @@ export class SalesReportListComponent {
   ngOnInit(): void {
     this.isLoading = true;  
     this.loadPage(this.currentPage);
+    this.isLoading=false;
     this.dateRangeForm = this.fb.group({
       startDate: new FormControl(Date, [Validators.required]),
       endDate: new FormControl(Date, [Validators.required, ]),
@@ -77,7 +78,7 @@ export class SalesReportListComponent {
 
 
   private getAllSalesReportsFunction(page: number, size: number): void {
-    const companyId: string = localStorage.getItem('company_id') || '';
+    const companyId: string = sessionStorage.getItem('company_id') || '';
     if (!companyId) {
       console.error('Company ID not found in localStorage');
       return;
@@ -130,7 +131,7 @@ export class SalesReportListComponent {
       cancelButtonText: 'Cancel',
     }).then(result => {
       if (result.isConfirmed) {
-        // Get current date for the title and file name
+
         const currentDate = new Date().toLocaleString('en-GB', {
           day: '2-digit',
           month: 'short',
@@ -139,10 +140,8 @@ export class SalesReportListComponent {
           minute: '2-digit',
         });
   
-        // Title for the report
         const reportTitle = [`Sales Report - ${currentDate}`];
   
-        // Column headers
         const columnHeaders = [
           'Invoice No',
           'Z Number',
@@ -155,7 +154,6 @@ export class SalesReportListComponent {
           'Customer ID',
         ];
   
-        // Format data for export
         const formattedData = this.selectedItems.map(item => [
           item.referenceNo,
           item.znumber,
@@ -174,7 +172,6 @@ export class SalesReportListComponent {
           item.customerID,
         ]);
   
-        // Combine title, column headers, and data into a single array
         const sheetData = [reportTitle, [], columnHeaders, ...formattedData];
   
         // Create worksheet and workbook
@@ -188,10 +185,8 @@ export class SalesReportListComponent {
           { s: { r: 0, c: 0 }, e: { r: 0, c: columnHeaders.length - 1 } } // Merge title row
         ];
   
-        // Generate filename with current date
         const fileName = `SalesReport_${currentDate.replace(/[:,\s]/g, '_')}.xlsx`;
   
-        // Export to file
         XLSX.writeFile(wb, fileName);
   
         Swal.fire('Exported!', 'Your file has been exported.', 'success');
@@ -240,17 +235,13 @@ onSubmitDateRange(dateRangeForm: any): void {
       return;
     }
   
-    const { startDate, endDate, } = this.dateRangeForm.value; // Including vatRate
-  
-    // Convert the startDate and endDate to Date objects
-    const startDateObject = new Date(startDate);
+    const { startDate, endDate, } = this.dateRangeForm.value; 
+      const startDateObject = new Date(startDate);
     const endDateObject = new Date(endDate);
   
-    // Format the dates for display (DD/MM/YYYY format)
     const formattedStartDate = this.formatDateForDisplay(startDateObject);
     const formattedEndDate = this.formatDateForDisplay(endDateObject);
   
-    // Send dates in DD/MM/YYYY format for the backend request
     const backendStartDate = this.formatDateForBackend(startDateObject);
     const backendEndDate = this.formatDateForBackend(endDateObject);
   
@@ -263,7 +254,7 @@ onSubmitDateRange(dateRangeForm: any): void {
       cancelButtonText: 'Cancel',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.searchByDateRange(backendStartDate, backendEndDate); // Pass vatRate to backend
+        this.searchByDateRange(backendStartDate, backendEndDate); 
       }
     });
   }
