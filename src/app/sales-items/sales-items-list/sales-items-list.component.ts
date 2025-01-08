@@ -30,6 +30,7 @@ export class SalesItemsListComponent {
   size: number = 50;
   startDate: Date | null = null;
   endDate: Date | null = null;
+  vatRate!:string;
   companyId: number = 0;
   dateRangeForm!: FormGroup;
 
@@ -44,17 +45,18 @@ export class SalesItemsListComponent {
   ) {}
 
   ngOnInit(): void {
-    this.isLoading = true;
-    this.loadPage(this.currentPage);
 
+    this.isLoading=true;
     this.dateRangeForm = this.fb.group({
       startDate: new FormControl(Date, [Validators.required]),
       endDate: new FormControl(Date, [Validators.required]),
-      vatRate: new FormControl('', [Validators.required]),
+      vatRate: new FormControl('', ),
     });
+    this.loadPage(this.currentPage);
   }
 
   loadPage(page: number): void {
+    this.isLoading = true; 
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
     this.updateDisplayedPages();
@@ -76,16 +78,16 @@ export class SalesItemsListComponent {
     const companyId: string = localStorage.getItem('company_id') || '';
     if (!companyId) {
       console.error('Company ID not found in localStorage');
+      this.isLoading = false;
       return;
     }
-    this.isLoading = true;
     const apiUrl = `api/v1/sales-items/${companyId}?page=${page}&size=${size}`;
     this.repository.getAllSalesItems(apiUrl).subscribe({
       next: (response: any) => {
         this.salesItems = response.body.content;
-        this.isLoading = false;
         this.totalPages = response.body.totalPages;
         this.updateDisplayedPages();
+        this.isLoading = false;
       },
       error: (err: HttpErrorResponse) => {
         this.errorHandler.handleError(err);
@@ -195,7 +197,10 @@ export class SalesItemsListComponent {
   }
 
   onSubmitDateRange(dateRangeForm: any): void {
-    console.log('clicked');
+    this.startDate = dateRangeForm.startDate;  // Store the start date
+    this.endDate = dateRangeForm.endDate; 
+    this.vatRate= dateRangeForm.vatRate;
+
     if (this.dateRangeForm.invalid) {
       Swal.fire({
         icon: 'error',
@@ -221,13 +226,14 @@ export class SalesItemsListComponent {
   
     Swal.fire({
       title: 'Are you sure?',
-      text: `You are searching for receipts from ${formattedStartDate} to ${formattedEndDate}.`,
+      text: `You are searching for receipts from ${formattedStartDate} to ${formattedEndDate} with Vat Rate ${vatRate}.`,
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Yes, proceed',
       cancelButtonText: 'Cancel',
     }).then((result) => {
       if (result.isConfirmed) {
+        this.isLoading=true;
         this.searchByDateRange(backendStartDate, backendEndDate, vatRate); // Pass vatRate to backend
       }
     });
@@ -237,25 +243,23 @@ export class SalesItemsListComponent {
     const companyId: string = localStorage.getItem('company_id') || '';
     if (!companyId) {
       console.error('Company ID not found in localStorage');
+      this.isLoading = false;
       return;
     }
-    this.isLoading = true;
     const apiUrl = `api/v1/search-items`;
-    console.log('vatRate',vatRate);
   
     this.repository.searchByDates(apiUrl, startDate, endDate, +companyId ,vatRate).subscribe({
       next: (response: any) => {
-        console.log('after search:', response.body);
   
         // If the response directly returns an array, use it to set salesItems
         this.salesItems = response.body; 
-        this.isLoading = false;// This is the array, not content
-        console.log(this.salesItems);
   
         this.totalPages = response.body.totalPages;
         this.updateDisplayedPages();
+        this.isLoading=false;
       },
       error: (err: HttpErrorResponse) => {
+        this.isLoading=false;
         console.error('Error fetching sales items:', err.message);
       }
     });

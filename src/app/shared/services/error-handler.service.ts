@@ -42,7 +42,6 @@ export class ErrorHandlerService {
     }
     else {
       this.router.navigate(['/authentication/login']);
-      console.log('return error');
       return error.message;
     }
   }

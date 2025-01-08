@@ -97,20 +97,26 @@
                                 
                 <div id="receiptTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
                                     <div class="row">
-                                        <div class="col-sm-12 col-md-6">
+                                        <div class="col-sm-12 col-md-4">
                                             <a (click)="exportToExcel()" class="btn btn-primary text-white">Export to Excel</a>
                                             <!-- <div class="dt-buttons btn-group"> <button class="btn btn-default buttons-copy buttons-html5" tabindex="0" aria-controls="receiptTable" type="button"><span>Copy</span></button> <button class="btn btn-default buttons-csv buttons-html5" tabindex="0" aria-controls="receiptTable" type="button"><span>CSV</span></button> <button class="btn btn-default buttons-excel buttons-html5" tabindex="0" aria-controls="receiptTable" type="button"><span>Excel</span></button> <button class="btn btn-default buttons-pdf buttons-html5" tabindex="0" aria-controls="receiptTable" type="button"><span>PDF</span></button> <button class="btn btn-default buttons-print" tabindex="0" aria-controls="receiptTable" type="button"><span><i class="fa fa-print" aria-hidden="true" style="margin-top:-3px;"></i> Print</span></button> <button class="btn btn-default buttons-select-all button-selectAll" tabindex="0" aria-controls="receiptTable" type="button"><span>Select all</span></button> <button class="btn btn-default buttons-select-none button-deselectAll disabled" tabindex="0" aria-controls="receiptTable" type="button" disabled="disabled"><span>Deselect all</span></button> </div> -->
                                         </div>
-                                        <div class="col-sm-12 col-md-6">
+                                        <div class="col-sm-12 col-md-4">
+                                            <div *ngIf="startDate && endDate" >
+                                                <h6>Results from {{ startDate | date: 'dd MMMM yyyy' }} to {{ endDate | date: 'dd MMMM yyyy' }}</h6>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4">
                                             <div id="receiptTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="receiptTable"></label></div>
                                         </div>
                                     </div>
                                 <table
-                                    class="table table-hover table-striped table-sm"
+                                    class="table table-hover table-striped table-sm " 
                                     id="salesReportTable">
-                                    <div *ngIf="isLoading" class="loader-container ">
+                                    <div *ngIf="isLoading" class="loader-container"  style="padding:2em 0" >
                                         <div class="spinner"></div>
                                     </div>
+                                    
                                     <thead>
                                         <tr>
                                             <th>

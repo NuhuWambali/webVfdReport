@@ -62,7 +62,6 @@ export class AuthenticationService {
   public getAuthUserName = () => {
     const token = sessionStorage.getItem('token');
     const decodedToken = this.jwtHelper.decodeToken(this.token);
-    console.log('decoded token',decodedToken);
     if(decodedToken!=null){
       const username = decodedToken.username;
       return username;

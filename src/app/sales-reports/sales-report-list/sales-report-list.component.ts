@@ -32,6 +32,7 @@ export class SalesReportListComponent {
   endDate: Date | null = null;
   companyId: number = 0;
   dateRangeForm!: FormGroup ;
+  dateRangeMessage: string | null = null;
   
   constructor(private fb: FormBuilder,
     private repository: SalesReportRepositoryService,
@@ -47,33 +48,35 @@ export class SalesReportListComponent {
 
   
   ngOnInit(): void {
-    this.isLoading = true;  
-    this.loadPage(this.currentPage);
-    this.isLoading=false;
+   
     this.dateRangeForm = this.fb.group({
       startDate: new FormControl(Date, [Validators.required]),
       endDate: new FormControl(Date, [Validators.required, ]),
     });
+    this.isLoading = true;  
+    this.loadPage(this.currentPage);
   
   }
 
   
   loadPage(page: number): void {
+    this.isLoading = true; 
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
     this.updateDisplayedPages();
     this.getAllSalesReportsFunction(page, this.size);
+
   }
 
   updateDisplayedPages(): void {
     const maxPagesToShow = 8;
     const startPage = Math.max(1, this.currentPage - Math.floor(maxPagesToShow / 2));
     const endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
-
     this.displayedPages = [];
     for (let i = startPage; i <= endPage; i++) {
       this.displayedPages.push(i);
     }
+
   }
 
 
@@ -81,6 +84,7 @@ export class SalesReportListComponent {
     const companyId: string = sessionStorage.getItem('company_id') || '';
     if (!companyId) {
       console.error('Company ID not found in localStorage');
+      this.isLoading = false;
       return;
     }
 
@@ -90,9 +94,11 @@ export class SalesReportListComponent {
         this.salesReports = response.body.content;
         this.totalPages = response.body.totalPages;
         this.updateDisplayedPages();
+        this.isLoading = false;
       },
       error: (err: HttpErrorResponse) => {
         this.errorHandler.handleError(err);
+        this.isLoading = false;
       }
     });
   }
@@ -168,7 +174,7 @@ export class SalesReportListComponent {
           Number(item.totalAmountTaxEx).toLocaleString(),
           Number(item.totalTaxAmount).toLocaleString(),
           Number(item.totalAmountTaxInc).toLocaleString(),
-          item.customername,
+          item.customerName,
           item.customerID,
         ]);
   
@@ -195,37 +201,10 @@ export class SalesReportListComponent {
   }
 
 
-  // ngAfterViewInit(): void {
-  //   ($('#start_date') as any).datepicker({
-  //     format: 'yyyy-mm-dd',
-  //     autoclose: true
-  //   }).on('changeDate', (event: any) => {
-  //     const formattedDate = this.formatDate(event.date);
-  //     this.dateRangeForm.patchValue({ startDate: formattedDate });
-  //   });
-  
-  //   ($('#end_date') as any).datepicker({
-  //     format: 'yyyy-mm-dd',
-  //     autoclose: true
-  //   }).on('changeDate', (event: any) => {
-  //     const formattedDate = this.formatDate(event.date);
-  //     this.dateRangeForm.patchValue({ endDate: formattedDate });
-  //   });
-  
-  //   // Update datepickers when form values change
-  //   this.dateRangeForm.get('startDate')?.valueChanges.subscribe((value) => {
-  //     ($('#start_date') as any).datepicker('update', value);
-  //   });
-  
-  //   this.dateRangeForm.get('endDate')?.valueChanges.subscribe((value) => {
-  //     ($('#end_date') as any).datepicker('update', value);
-  //   });
-  // }
-
-
-
-onSubmitDateRange(dateRangeForm: any): void {
-    console.log('clicked');
+  onSubmitDateRange(dateRangeForm: any): void {
+    this.startDate = dateRangeForm.startDate;  // Store the start date
+    this.endDate = dateRangeForm.endDate;  
+    this.isLoading = true;
     if (this.dateRangeForm.invalid) {
       Swal.fire({
         icon: 'error',
@@ -235,8 +214,9 @@ onSubmitDateRange(dateRangeForm: any): void {
       return;
     }
   
-    const { startDate, endDate, } = this.dateRangeForm.value; 
-      const startDateObject = new Date(startDate);
+    const { startDate, endDate, vatRate } = this.dateRangeForm.value;
+  
+    const startDateObject = new Date(startDate);
     const endDateObject = new Date(endDate);
   
     const formattedStartDate = this.formatDateForDisplay(startDateObject);
@@ -254,32 +234,36 @@ onSubmitDateRange(dateRangeForm: any): void {
       cancelButtonText: 'Cancel',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.searchByDateRange(backendStartDate, backendEndDate); 
+        this.dateRangeMessage = ` ${formattedStartDate} to ${formattedEndDate}`; // Update message
+        this.searchByDateRange(backendStartDate, backendEndDate, );
+        this.isLoading = false;
       }
     });
   }
   
   searchByDateRange(startDate: string, endDate: string): void {
+    
+    this.isLoading=true
     const companyId: string = localStorage.getItem('company_id') || '';
     if (!companyId) {
       console.error('Company ID not found in localStorage');
+      this.isLoading = false;
       return;
     }
-    this.isLoading = true;
+
     const apiUrl = `api/v1/sales-reports-dates-search`;  
     this.repository.searchByDates(apiUrl, startDate, endDate, +companyId ).subscribe({
-      next: (response: any) => {
-        console.log('after search:', response.body);
-  
+      next: (response: any) => {  
         // If the response directly returns an array, use it to set salesItems
         this.salesReports = response.body; 
-        this.isLoading = false;// This is the array, not content
-        console.log(this.salesReports);
-  
         this.totalPages = response.body.totalPages;
+
         this.updateDisplayedPages();
+        this.isLoading=false;
+        
       },
       error: (err: HttpErrorResponse) => {
+        this.isLoading = false; 
         console.error('Error fetching Sales Report:', err.message);
       }
     });
