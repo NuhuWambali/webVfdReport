@@ -75,9 +75,9 @@ export class SalesItemsListComponent {
   }
 
   private getAllSalesItemsFunction(page: number, size: number): void {
-    const companyId: string = localStorage.getItem('company_id') || '';
+    const companyId: string = sessionStorage.getItem('company_id') || '';
     if (!companyId) {
-      console.error('Company ID not found in localStorage');
+      console.error('Company ID not found in sessionStorage');
       this.isLoading = false;
       return;
     }
@@ -240,9 +240,9 @@ export class SalesItemsListComponent {
   }
   
   searchByDateRange(startDate: string, endDate: string, vatRate?: string): void {
-    const companyId: string = localStorage.getItem('company_id') || '';
+    const companyId: string = sessionStorage.getItem('company_id') || '';
     if (!companyId) {
-      console.error('Company ID not found in localStorage');
+      console.error('Company ID not found in sessionStorage');
       this.isLoading = false;
       return;
     }

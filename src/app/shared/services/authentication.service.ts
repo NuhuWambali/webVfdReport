@@ -87,7 +87,7 @@ export class AuthenticationService {
 
 
   getBranchId(): string | null {
-    return localStorage.getItem('branch_id');
+    return sessionStorage.getItem('branch_id');
   }
 
   getUserId(): string | null {
