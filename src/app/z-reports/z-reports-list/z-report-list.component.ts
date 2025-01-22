@@ -254,6 +254,7 @@ onSubmitDateRange(dateRangeForm: any): void {
       next: (response: any) => {
         // If the response directly returns an array, use it to set salesItems
         this.zReports = response.body; 
+     
         this.isLoading = false;// This is the array, not content
 
         this.totalPages = response.body.totalPages;

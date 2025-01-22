@@ -85,6 +85,7 @@ export class SalesItemsListComponent {
     this.repository.getAllSalesItems(apiUrl).subscribe({
       next: (response: any) => {
         this.salesItems = response.body.content;
+
         this.totalPages = response.body.totalPages;
         this.updateDisplayedPages();
         this.isLoading = false;
@@ -137,7 +138,7 @@ export class SalesItemsListComponent {
         });
 
         // Title for the report
-        const reportTitle = [`Sales Report - ${currentDate}`];
+        const reportTitle = [`Sales Items - ${currentDate}`];
 
         // Column headers
         const columnHeaders = [
@@ -157,13 +158,14 @@ export class SalesItemsListComponent {
           item.referenceNo,
           item.znumber,
           item.fiscalCode,
-          new Date(item.dateTime).toLocaleString('en-GB', {
+          new Date(item.datetime).toLocaleString('en-GB', {
             day: '2-digit',
             month: 'short',
             year: 'numeric',
             hour: '2-digit',
             minute: '2-digit',
           }),
+         
           Number(item.nettamount).toLocaleString(),
           Number(item.taxamount).toLocaleString(),
           Number(item.pmtamount).toLocaleString(),
