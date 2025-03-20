@@ -5,10 +5,10 @@ import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
   { path: 'dashboard', component:DashboardComponent,canActivate: [AuthGuard]},
-  { path: 'authentication', loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule) },
-  { path: 'sales-reports', loadChildren: () => import('./sales-reports/sales-reports.module').then(m => m.SalesReportsModule) },
-  { path: 'sales-items', loadChildren: () => import('./sales-items/sales-items.module').then(m => m.SalesItemsModule) },
-  { path: 'z-reports', loadChildren: () => import('./z-reports/z-reports.module').then(m => m.SalesReportsModule) },
+  { path: 'authentication', loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule),},
+  { path: 'sales-reports', loadChildren: () => import('./sales-reports/sales-reports.module').then(m => m.SalesReportsModule),canActivate: [AuthGuard] },
+  // { path: 'sales-items', loadChildren: () => import('./sales-items/sales-items.module').then(m => m.SalesItemsModule),canActivate: [AuthGuard] },
+  { path: 'z-reports', loadChildren: () => import('./z-reports/z-reports.module').then(m => m.SalesReportsModule),canActivate: [AuthGuard] },
 
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 ];

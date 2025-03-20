@@ -4,7 +4,7 @@ import { SalesReportListComponent } from './sales-report-list/sales-report-list.
 import { AuthGuard } from '../shared/guards/auth.guard';
 
 const routes: Routes = [
-  { path: 'list', component: SalesReportListComponent,canActivate: [AuthGuard]},
+  { path: 'list', component: SalesReportListComponent,},
   // { path:'create', component: BranchCreateComponent },
   // { path: 'update/:id', component: BranchUpdateComponent },
 
