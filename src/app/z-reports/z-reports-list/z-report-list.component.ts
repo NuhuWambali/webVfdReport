@@ -86,6 +86,7 @@ export class ZReportListComponent {
     this.repository.getAllZReport(apiUrl).subscribe({
       next: (response: any) => {
         this.zReports = response.body.content;
+        console.log(this.zReports);
         this.totalPages = response.body.totalPages;
         this.updateDisplayedPages();
         this.isLoading = false; // Set loading to false after data is fetched
@@ -163,7 +164,7 @@ export class ZReportListComponent {
         // Format data for export
         const formattedData = this.selectedItems.map(item => [
           item.znumber,
-          Number(item.dailyTotalAMount).toLocaleString(),
+          Number(item.dailyTotalAmount).toLocaleString(),
           item.gross,
           item.ticketsFiscal,
           Number(item.nettAmountA).toLocaleString(),
@@ -258,6 +259,7 @@ onSubmitDateRange(dateRangeForm: any): void {
       next: (response: any) => {
         // If the response directly returns an array, use it to set zReports
         this.zReports = response.body; 
+        console.log(this.zReports);
         this.totalPages = response.body.totalPages;
         this.updateDisplayedPages();
         this.isLoading = false; // End loading when data is received

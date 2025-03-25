@@ -15,7 +15,7 @@ p{
   user-select: none;
 }
 .bg-img{
-  background: url('/assets/images/hero-img.jpg');
+  background:  #fff;
   height: 100vh;
   background-size: cover;
   background-position: center;
@@ -27,7 +27,7 @@ p{
   left: 0;
   height: 100%;
   width: 100%;
-  background: rgba(0,0,0,0.7);
+  background: #fff;
 }
 .content{
   position: absolute;
@@ -55,7 +55,7 @@ p{
   width: 100%;
   display: flex;
   border-radius: 10px;
-  border: 1px solid #fff;
+  border: 1px solid #000;
 }
 .field span{
   color: rgb(15, 224, 67);
@@ -68,7 +68,7 @@ p{
   background: transparent;
   border: none;
   outline: none;
-  color: rgb(15, 224, 67);
+  color: #000;
   font-size: 16px;
   font-family: 'Poppins',sans-serif;
 }
@@ -93,7 +93,7 @@ p{
   margin: 10px 0;
 }
 .pass a{
-  color: white;
+  color: #000;
   text-decoration: none;
   font-family: 'Poppins',sans-serif;
 }
@@ -102,7 +102,7 @@ p{
 }
 .btn {
   background: linear-gradient(to left,  #11161a, rgb(15, 224, 67));
-  color: #fff;
+  color: #000;
   font-size: 18px;
   letter-spacing: 1px;
   font-weight: 600;
@@ -119,17 +119,17 @@ p{
   background: linear-gradient(to left,  rgb(15, 224, 67),#11161a);
   transition: 0.3s;
     border: none;
-    color:#fff;
+    color:3000;
 }
 .login{
-  color: white;
+  color: #000;
   margin: 20px 0;
   font-family: 'Poppins',sans-serif;
 }
 .links{
   display: flex;
   cursor: pointer;
-  color: white;
+  color: #000;
   margin: 0 0 20px 0;
 }
 
@@ -142,7 +142,7 @@ i span{
 }
 .signup{
   font-size: 15px;
-  color: white;
+  color: #000;
   font-family: 'Poppins',sans-serif;
 }
 
@@ -164,7 +164,7 @@ i span{
 
 
 .field input::placeholder {
-  color: #fff; /* Placeholder color */
+  color: #000; /* Placeholder color */
 }
 
 
