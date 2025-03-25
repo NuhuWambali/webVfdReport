@@ -48,8 +48,7 @@ export class ZReportListComponent {
       startDate: new FormControl(Date, [Validators.required]),
       endDate: new FormControl(Date, [Validators.required, ]),
     });
-    this.isLoading=true;
-    this.loadPage(this.currentPage);
+
   }
 
   
