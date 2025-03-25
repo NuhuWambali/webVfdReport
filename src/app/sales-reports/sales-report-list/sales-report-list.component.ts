@@ -53,14 +53,14 @@ export class SalesReportListComponent {
       startDate: new FormControl(Date, [Validators.required]),
       endDate: new FormControl(Date, [Validators.required, ]),
     });
-    this.isLoading = true;  
+    
     this.loadPage(this.currentPage);
   
   }
 
   
   loadPage(page: number): void {
-    this.isLoading = true; 
+
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
     this.updateDisplayedPages();
@@ -204,7 +204,6 @@ export class SalesReportListComponent {
   onSubmitDateRange(dateRangeForm: any): void {
     this.startDate = dateRangeForm.startDate;  // Store the start date
     this.endDate = dateRangeForm.endDate;  
-    this.isLoading = true;
     if (this.dateRangeForm.invalid) {
       Swal.fire({
         icon: 'error',

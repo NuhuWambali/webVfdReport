@@ -46,7 +46,6 @@ export class SalesItemsListComponent {
 
   ngOnInit(): void {
 
-    this.isLoading=true;
     this.dateRangeForm = this.fb.group({
       startDate: new FormControl(Date, [Validators.required]),
       endDate: new FormControl(Date, [Validators.required]),
@@ -56,7 +55,7 @@ export class SalesItemsListComponent {
   }
 
   loadPage(page: number): void {
-    this.isLoading = true; 
+
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
     this.updateDisplayedPages();
@@ -78,7 +77,6 @@ export class SalesItemsListComponent {
     const companyId: string = sessionStorage.getItem('company_id') || '';
     if (!companyId) {
       console.error('Company ID not found in sessionStorage');
-      this.isLoading = false;
       return;
     }
     const apiUrl = `api/v1/sales-items/${companyId}?page=${page}&size=${size}`;
@@ -88,7 +86,7 @@ export class SalesItemsListComponent {
 
         this.totalPages = response.body.totalPages;
         this.updateDisplayedPages();
-        this.isLoading = false;
+       
       },
       error: (err: HttpErrorResponse) => {
         this.errorHandler.handleError(err);
@@ -225,7 +223,7 @@ export class SalesItemsListComponent {
     // Send dates in DD/MM/YYYY format for the backend request
     const backendStartDate = this.formatDateForBackend(startDateObject);
     const backendEndDate = this.formatDateForBackend(endDateObject);
-  
+ 
     Swal.fire({
       title: 'Are you sure?',
       text: `You are searching for receipts from ${formattedStartDate} to ${formattedEndDate} with Vat Rate ${vatRate}.`,
@@ -235,7 +233,7 @@ export class SalesItemsListComponent {
       cancelButtonText: 'Cancel',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.isLoading=true;
+    
         this.searchByDateRange(backendStartDate, backendEndDate, vatRate); // Pass vatRate to backend
       }
     });
@@ -245,7 +243,7 @@ export class SalesItemsListComponent {
     const companyId: string = sessionStorage.getItem('company_id') || '';
     if (!companyId) {
       console.error('Company ID not found in sessionStorage');
-      this.isLoading = false;
+      
       return;
     }
     const apiUrl = `api/v1/search-items`;
@@ -258,10 +256,10 @@ export class SalesItemsListComponent {
   
         this.totalPages = response.body.totalPages;
         this.updateDisplayedPages();
-        this.isLoading=false;
+    
       },
       error: (err: HttpErrorResponse) => {
-        this.isLoading=false;
+        
         console.error('Error fetching sales items:', err.message);
       }
     });

@@ -54,7 +54,7 @@ export class ZReportListComponent {
 
   
   loadPage(page: number): void {
-    this.isLoading = true; 
+
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
     this.updateDisplayedPages();
@@ -74,27 +74,30 @@ export class ZReportListComponent {
 
 
   private getAllZReportsFunction(page: number, size: number): void {
+    this.isLoading = true;  // Set loading to true before making the API call
+    
     const companyId: string = sessionStorage.getItem('company_id') || '';
     if (!companyId) {
       console.error('Company ID not found in sessionStorage');
-      this.isLoading = false;
+      this.isLoading = false;  // Set loading to false if company ID is not found
       return;
     }
+
     const apiUrl = `api/v1/z-report/${companyId}?page=${page}&size=${size}`;
     this.repository.getAllZReport(apiUrl).subscribe({
       next: (response: any) => {
         this.zReports = response.body.content;
         this.totalPages = response.body.totalPages;
         this.updateDisplayedPages();
-        this.isLoading = false;
+        this.isLoading = false; // Set loading to false after data is fetched
       },
       error: (err: HttpErrorResponse) => {
         this.errorHandler.handleError(err);
-        this.isLoading = false;
+        this.isLoading = false; // Set loading to false after error
       }
     });
   }
-  
+
 
   onItemCheck(event: any, item: any): void {
     if (event.target.checked) {
@@ -202,7 +205,7 @@ onSubmitDateRange(dateRangeForm: any): void {
   this.endDate = dateRangeForm.endDate; 
   this.startDate= dateRangeForm.startDate;
 
-  this.isLoading = true;
+
     if (this.dateRangeForm.invalid) {
       Swal.fire({
         icon: 'error',
@@ -248,23 +251,25 @@ onSubmitDateRange(dateRangeForm: any): void {
       this.isLoading = false;
       return;
     }
-
+  
+    this.isLoading = true; // Start loading before the API call
+  
     const apiUrl = `api/v1/search-z-report`;  
     this.repository.searchByDates(apiUrl, startDate, endDate, +companyId ).subscribe({
       next: (response: any) => {
-        // If the response directly returns an array, use it to set salesItems
+        // If the response directly returns an array, use it to set zReports
         this.zReports = response.body; 
-     
-        this.isLoading = false;// This is the array, not content
-
         this.totalPages = response.body.totalPages;
         this.updateDisplayedPages();
+        this.isLoading = false; // End loading when data is received
       },
       error: (err: HttpErrorResponse) => {
-        this.isLoading = false;
+        this.errorHandler.handleError(err); // Handle error
+        this.isLoading = false; // End loading on error
       }
     });
   }
+  
   
   formatDateForDisplay(date: Date): string {
     const d = new Date(date);
@@ -279,12 +284,12 @@ onSubmitDateRange(dateRangeForm: any): void {
   formatDateForBackend(date: Date): string {
     const d = new Date(date);
     const day = ('0' + d.getDate()).slice(-2);
-    const month = ('0' + (d.getMonth() + 1)).slice(-2); // Ensure two digits for month
+    const month = ('0' + (d.getMonth() + 1)).slice(-2); 
     const year = d.getFullYear();
   
     return `${day}/${month}/${year}`; 
     
-    // DD/MM/YYYY format
+
   }
 
   
