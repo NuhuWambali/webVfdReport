@@ -137,7 +137,8 @@ export class SalesReportListComponent {
       cancelButtonText: 'Cancel',
     }).then(result => {
       if (result.isConfirmed) {
-
+  
+        // Generate the current date
         const currentDate = new Date().toLocaleString('en-GB', {
           day: '2-digit',
           month: 'short',
@@ -148,6 +149,7 @@ export class SalesReportListComponent {
   
         const reportTitle = [`Sales Report - ${currentDate}`];
   
+        // Column headers
         const columnHeaders = [
           'Invoice No',
           'Z Number',
@@ -160,11 +162,12 @@ export class SalesReportListComponent {
           'Customer ID',
         ];
   
+        // Format data for Excel
         const formattedData = this.selectedItems.map(item => [
           item.referenceNo,
           item.znumber,
           item.fiscalCode,
-          item.dateTime,
+          item.dateTime.replace('T', ' '), // Remove the "T" from the dateTime
           Number(item.totalAmountTaxEx).toLocaleString(),
           Number(item.totalTaxAmount).toLocaleString(),
           Number(item.totalAmountTaxInc).toLocaleString(),
@@ -179,21 +182,22 @@ export class SalesReportListComponent {
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Sales Report');
   
-        // Style the title row
-        ws['A1'].s = { font: { bold: true, sz: 14 }, alignment: { horizontal: 'center' } };
+        // Optional: Merge title row to center the title
         ws['!merges'] = [
-          { s: { r: 0, c: 0 }, e: { r: 0, c: columnHeaders.length - 1 } } // Merge title row
+          { s: { r: 0, c: 0 }, e: { r: 0, c: columnHeaders.length - 1 } }
         ];
   
+        // File name generation
         const fileName = `SalesReport_${currentDate.replace(/[:,\s]/g, '_')}.xlsx`;
   
+        // Export the file
         XLSX.writeFile(wb, fileName);
   
         Swal.fire('Exported!', 'Your file has been exported.', 'success');
       }
     });
   }
-
+  
 
   onSubmitDateRange(dateRangeForm: any): void {
     this.startDate = dateRangeForm.startDate;  // Store the start date
