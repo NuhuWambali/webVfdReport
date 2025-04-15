@@ -121,6 +121,10 @@ export class SalesReportListComponent {
     }
     this.salesReports.forEach((item: { selected: any; }) => (item.selected = event.target.checked));
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
   exportToExcel(): void {
     if (this.selectedItems.length === 0) {
       Swal.fire('No items selected', 'Please select at least 1 item to export.', 'warning');
@@ -137,6 +141,10 @@ export class SalesReportListComponent {
     }).then(result => {
       if (result.isConfirmed) {
   
+<<<<<<< HEAD
+=======
+        // Generate the current date
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
         const currentDate = new Date().toLocaleString('en-GB', {
           day: '2-digit',
           month: 'short',
@@ -147,6 +155,10 @@ export class SalesReportListComponent {
   
         const reportTitle = [`Sales Report - ${currentDate}`];
   
+<<<<<<< HEAD
+=======
+        // Column headers
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
         const columnHeaders = [
           'Invoice No',
           'Z Number',
@@ -159,30 +171,56 @@ export class SalesReportListComponent {
           'Customer ID',
         ];
   
+<<<<<<< HEAD
+=======
+        // Format data for Excel
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
         const formattedData = this.selectedItems.map(item => [
           item.referenceNo,
           item.znumber,
           item.fiscalCode,
+<<<<<<< HEAD
           item.dateTime.replace('T', ' '),
           Number(item.totalAmountTaxEx),    
           Number(item.totalTaxAmount),     
           Number(item.totalAmountTaxInc),   
+=======
+          item.dateTime.replace('T', ' '), // Remove the "T" from the dateTime
+          Number(item.totalAmountTaxEx).toLocaleString(),
+          Number(item.totalTaxAmount).toLocaleString(),
+          Number(item.totalAmountTaxInc).toLocaleString(),
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
           item.customerName,
           item.customerID,
         ]);
   
         const sheetData = [reportTitle, [], columnHeaders, ...formattedData];
   
+<<<<<<< HEAD
+=======
+        // Create worksheet and workbook
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
         const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Sales Report');
   
+<<<<<<< HEAD
+=======
+        // Optional: Merge title row to center the title
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
         ws['!merges'] = [
           { s: { r: 0, c: 0 }, e: { r: 0, c: columnHeaders.length - 1 } }
         ];
   
+<<<<<<< HEAD
         const fileName = `SalesReport_${currentDate.replace(/[:,\s]/g, '_')}.xlsx`;
   
+=======
+        // File name generation
+        const fileName = `SalesReport_${currentDate.replace(/[:,\s]/g, '_')}.xlsx`;
+  
+        // Export the file
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
         XLSX.writeFile(wb, fileName);
   
         Swal.fire('Exported!', 'Your file has been exported.', 'success');

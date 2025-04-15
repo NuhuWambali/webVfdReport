@@ -134,6 +134,10 @@ export class ZReportListComponent {
       cancelButtonText: 'Cancel',
     }).then(result => {
       if (result.isConfirmed) {
+<<<<<<< HEAD
+=======
+        // Get current date for the title and file name
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
         const currentDate = new Date().toLocaleString('en-GB', {
           day: '2-digit',
           month: 'short',
@@ -142,8 +146,15 @@ export class ZReportListComponent {
           minute: '2-digit',
         });
   
+<<<<<<< HEAD
         const reportTitle = [`Z Report - ${currentDate}`];
   
+=======
+        // Title for the report
+        const reportTitle = [`Z Report - ${currentDate}`];
+  
+        // Column headers
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
         const columnHeaders = [
           'Z Number',
           'DAILY_TOTAL_AMOUNT',
@@ -155,6 +166,7 @@ export class ZReportListComponent {
           'TAX AMOUNT_C',
           'NET AMOUNT_E',
           'TAX AMOUNT_E',
+<<<<<<< HEAD
         ];
   
         // Don't use toLocaleString() — just raw numbers for Excel to treat as numbers
@@ -173,11 +185,35 @@ export class ZReportListComponent {
   
         const sheetData = [reportTitle, [], columnHeaders, ...formattedData];
   
+=======
+         
+        ];
+  
+        // Format data for export
+        const formattedData = this.selectedItems.map(item => [
+          item.znumber,
+          Number(item.dailyTotalAmount).toLocaleString(),
+          item.gross,
+          item.ticketsFiscal,
+          Number(item.nettAmountA).toLocaleString(),
+          Number(item.taxAmountA).toLocaleString(),
+          Number(item.nettAmountC).toLocaleString(),
+          Number(item.taxAmountC).toLocaleString(),
+          Number(item.nettAmountE).toLocaleString(),
+          Number(item.taxAmountE).toLocaleString(),   
+        ]);
+  
+        // Combine title, column headers, and data into a single array
+        const sheetData = [reportTitle, [], columnHeaders, ...formattedData];
+  
+        // Create worksheet and workbook
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
         const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Z Report');
   
         // Style the title row
+<<<<<<< HEAD
         ws['A1'].s = {
           font: { bold: true, sz: 14 },
           alignment: { horizontal: 'center' }
@@ -188,16 +224,33 @@ export class ZReportListComponent {
   
         const fileName = `zReport_${currentDate.replace(/[:,\s]/g, '_')}.xlsx`;
   
+=======
+        ws['A1'].s = { font: { bold: true, sz: 14 }, alignment: { horizontal: 'center' } };
+        ws['!merges'] = [
+          { s: { r: 0, c: 0 }, e: { r: 0, c: columnHeaders.length - 1 } } // Merge title row
+        ];
+  
+        // Generate filename with current date
+        const fileName = `zReport_${currentDate.replace(/[:,\s]/g, '_')}.xlsx`;
+  
+        // Export to file
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
         XLSX.writeFile(wb, fileName);
   
         Swal.fire('Exported!', 'Your file has been exported.', 'success');
       }
     });
   }
+<<<<<<< HEAD
   
 
 onSubmitDateRange(dateRangeForm: any): void {
   
+=======
+
+
+onSubmitDateRange(dateRangeForm: any): void {
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
   this.endDate = dateRangeForm.endDate; 
   this.startDate= dateRangeForm.startDate;
 
@@ -240,9 +293,13 @@ onSubmitDateRange(dateRangeForm: any): void {
     });
   }
   
+<<<<<<< HEAD
   
   searchByDateRange(startDate: string, endDate: string): void {
     this.isLoading = true; 
+=======
+  searchByDateRange(startDate: string, endDate: string): void {
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
     const companyId: string = sessionStorage.getItem('company_id') || '';
     if (!companyId) {
       console.error('Company ID not found in sessionStorage');
@@ -250,6 +307,11 @@ onSubmitDateRange(dateRangeForm: any): void {
       return;
     }
   
+<<<<<<< HEAD
+=======
+    this.isLoading = true; // Start loading before the API call
+  
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
     const apiUrl = `api/v1/search-z-report`;  
     this.repository.searchByDates(apiUrl, startDate, endDate, +companyId ).subscribe({
       next: (response: any) => {

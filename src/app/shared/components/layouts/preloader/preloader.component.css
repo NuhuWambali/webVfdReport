@@ -1,24 +1,45 @@
+<<<<<<< HEAD
 /* .container-fluid {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 40vh; 
+=======
+.container-fluid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40vh; /* Adjust based on the container size */
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
     
 }
 
 .loader {
     position:relative;
     top:-4em;
+<<<<<<< HEAD
     border: 6px solid transparent; 
     border-top: 6px solid green; 
+=======
+    border: 6px solid transparent; /* Transparent border */
+    border-top: 6px solid green; /* Green border for the spinner */
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
     border-radius: 50%;
     width: 60px;
     height: 60px;
     animation: spin 1s linear infinite;
+<<<<<<< HEAD
     animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1); 
+=======
+    animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1); /* Smooth animation */
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
 }
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+<<<<<<< HEAD
 } */
+=======
+}
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299

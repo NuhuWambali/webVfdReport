@@ -116,7 +116,11 @@ export class SalesItemsListComponent {
       Swal.fire('No items selected', 'Please select at least 1 item to export.', 'warning');
       return;
     }
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
     Swal.fire({
       title: 'Are you sure?',
       text: `You have selected ${this.selectedItems.length} item(s). Do you want to export them to Excel?`,
@@ -126,6 +130,10 @@ export class SalesItemsListComponent {
       cancelButtonText: 'Cancel',
     }).then(result => {
       if (result.isConfirmed) {
+<<<<<<< HEAD
+=======
+        // Get current date for the title and file name
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
         const currentDate = new Date().toLocaleString('en-GB', {
           day: '2-digit',
           month: 'short',
@@ -133,9 +141,17 @@ export class SalesItemsListComponent {
           hour: '2-digit',
           minute: '2-digit',
         });
+<<<<<<< HEAD
   
         const reportTitle = [`Sales Items - ${currentDate}`];
   
+=======
+
+        // Title for the report
+        const reportTitle = [`Sales Items - ${currentDate}`];
+
+        // Column headers
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
         const columnHeaders = [
           'Invoice No',
           'Z Number',
@@ -147,8 +163,13 @@ export class SalesItemsListComponent {
           'Vat Rate',
           'Payment Type',
         ];
+<<<<<<< HEAD
   
         // ✅ Use raw numbers, no formatting
+=======
+
+        // Format data for export
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
         const formattedData = this.selectedItems.map(item => [
           item.referenceNo,
           item.znumber,
@@ -160,6 +181,7 @@ export class SalesItemsListComponent {
             hour: '2-digit',
             minute: '2-digit',
           }),
+<<<<<<< HEAD
           Number(item.nettamount),
           Number(item.taxamount),
           Number(item.pmtamount),
@@ -186,11 +208,44 @@ export class SalesItemsListComponent {
   
         XLSX.writeFile(wb, fileName);
   
+=======
+         
+          Number(item.nettamount).toLocaleString(),
+          Number(item.taxamount).toLocaleString(),
+          Number(item.pmtamount).toLocaleString(),
+          item.vatrate,
+          item.pmttype,
+        ]);
+
+        // Combine title, column headers, and data into a single array
+        const sheetData = [reportTitle, [], columnHeaders, ...formattedData];
+
+        // Create worksheet and workbook
+        const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sales Items');
+
+        // Style the title row
+        ws['A1'].s = { font: { bold: true, sz: 14 }, alignment: { horizontal: 'center' } };
+        ws['!merges'] = [
+          { s: { r: 0, c: 0 }, e: { r: 0, c: columnHeaders.length - 1 } } // Merge title row
+        ];
+
+        // Generate filename with current date
+        const fileName = `SalesItems_${currentDate.replace(/[:,\s]/g, '_')}.xlsx`;
+
+        // Export to file
+        XLSX.writeFile(wb, fileName);
+
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
         Swal.fire('Exported!', 'Your file has been exported.', 'success');
       }
     });
   }
+<<<<<<< HEAD
   
+=======
+>>>>>>> 868731eed93e2da3f92872ba0867c787cbafc299
 
   onSubmitDateRange(dateRangeForm: any): void {
     this.startDate = dateRangeForm.startDate;  // Store the start date
