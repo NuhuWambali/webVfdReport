@@ -1,0 +1,154 @@
+<div class="pcoded-content">
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10" style="font-size: 23px;">Z Reports</h5>
+                        <p class="m-b-0">Welcome To WebVFD Portal</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/dashboard"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="/receipts-reports">Z Reports</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+            <div class="page-wrapper">
+                <div class="page-body">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Z Reports Management</h5>
+                            <span>In here you can view all Z reports</span>
+                        </div>
+
+                        <div class="card-block table-border-style">
+                            <div class="table-responsive">
+                                <div class="col-md-6">
+                                    <h5 class="mb-2">Search by Dates:</h5>
+                                    <div class="row">
+                                        <form [formGroup]="dateRangeForm" autocomplete="off" (ngSubmit)="onSubmitDateRange(dateRangeForm.value)">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">From</div>
+                                                <input formControlName="startDate" name="startDate" type="date" class="form-control validate" required />
+                                                <div class="input-group-addon">To</div>
+                                                <input formControlName="endDate" name="endDate" type="date" class="form-control validate" required />
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div id="receiptTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-2">
+                                            <a (click)="exportToExcel()" class="btn btn-primary text-white">Export to Excel</a>
+                                        </div>
+                                        <div class="col-sm-12 col-md-8">
+                                            <div *ngIf="startDate && endDate">
+                                                <h6>Results from {{ startDate | date: 'dd MMMM yyyy' }} to {{ endDate | date: 'dd MMMM yyyy' }} </h6>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-2">
+                                            <div id="receiptTable_filter" class="dataTables_filter">
+                                                <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="receiptTable"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Show loading spinner if isLoading is true -->
+                                    <div *ngIf="isLoading" class="loader-container">
+                                        <div class="spinner"></div>
+                                    </div>
+
+                                    <!-- Only show the table if isLoading is false -->
+                                    <div *ngIf="!isLoading">
+                                        <table class="table table-hover table-striped table-sm" id="salesReportTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <input type="checkbox" (change)="selectAll($event)" />
+                                                    </th>
+                                                    <th>ZNumber</th>
+                                                    <th>DAILY_TOTAL_AMOUNT</th>
+                                                    <th>GROSS</th>
+                                                    <th>TICKETFISCAL</th>
+                                                    <th>NET AMOUNT_A</th>
+                                                    <th>TAX AMOUNT_A</th>
+                                                    <th>NET AMOUNT_C</th>
+                                                    <th>TAX AMOUNT_C</th>
+                                                    <th>NET AMOUNT_E</th>
+                                                    <th>TAX AMOUNT_E</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let zReport of zReports; let index = index">
+                                                    <td>
+                                                        <input type="checkbox" [value]="zReport" (change)="onItemCheck($event, zReport)" [checked]="selectedItems.includes(zReport)" />
+                                                    </td>
+                                                    <td>{{ zReport.znumber }}</td>
+                                                    <td>{{ zReport.dailyTotalAmount | number: '1.2-2' }}</td>
+                                                    <td>{{ zReport.gross }}</td>
+                                                    <td>{{ zReport.ticketsFiscal }}</td>
+                                                    <td>{{ zReport.nettAmountA | number: '1.2-2' }}</td>
+                                                    <td>{{ zReport.taxAmountA | number: '1.2-2' }}</td>
+                                                    <td>{{ zReport.nettAmountC | number: '1.2-2' }}</td>
+                                                    <td>{{ zReport.taxAmountC | number: '1.2-2' }}</td>
+                                                    <td>{{ zReport.nettAmountE | number: '1.2-2' }}</td>
+                                                    <td>{{ zReport.taxAmountE | number: '1.2-2' }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="pull-right">
+                                        <nav class="pagination-container">
+                                            <ul class="pagination">
+                                                <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+                                                    <a class="page-link" (click)="loadPage(currentPage - 1)" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                    </a>
+                                                </li>
+                                                <li class="page-item" *ngIf="currentPage > 1 && displayedPages[0] > 1">
+                                                    <a class="page-link" (click)="loadPage(displayedPages[0] - 1)">...</a>
+                                                </li>
+                                                <li class="page-item" *ngFor="let page of displayedPages" [ngClass]="{'active': currentPage === page}">
+                                                    <a class="page-link" (click)="loadPage(page)">{{ page }}</a>
+                                                </li>
+                                                <li class="page-item" *ngIf="currentPage < totalPages && displayedPages[displayedPages.length - 1] < totalPages">
+                                                    <a class="page-link" (click)="loadPage(displayedPages[displayedPages.length - 1] + 1)">...</a>
+                                                </li>
+                                                <li class="page-item" [ngClass]="{'disabled': currentPage === totalPages}">
+                                                    <a class="page-link" (click)="loadPage(currentPage + 1)" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="page-indicator">
+                                                <span>Page {{ currentPage }} of {{ totalPages }}</span>
+                                            </div>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

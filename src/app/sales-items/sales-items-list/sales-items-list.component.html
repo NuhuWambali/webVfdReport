@@ -1,0 +1,224 @@
+
+<div class="pcoded-content">
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10" style="font-size: 23px;">Sales Items</h5>
+                        <p class="m-b-0">Welcome To WebVFD Portal</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/dashboard"> <i class="fa fa-home"></i>
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item"><a
+                                href="/dashboard">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item"><a
+                                href="/receipts-reports">Sales Items</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pcoded-inner-content">
+        <!-- Main-body start -->
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- Page-body start -->
+                <div class="page-body">
+
+                    <!-- Basic table card start -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Sales Items Managemnet </h5>
+                            <span>In here you can view all receipts
+                                reports</span>
+                            <!-- <div class="card-header-right">
+                                <ul class="list-unstyled card-option">
+                                    <li><i
+                                            class="fa fa fa-wrench open-card-option"></i></li>
+                                    <li><i
+                                            class="fa fa-window-maximize full-card"></i></li>
+                                    <li><i
+                                            class="fa fa-minus minimize-card"></i></li>
+                                    <li><i
+                                            class="fa fa-refresh reload-card"></i></li>
+                                    <li><i
+                                            class="fa fa-trash close-card"></i></li>
+                                </ul>
+                            </div> -->
+                            
+                        </div>
+
+                        <div class="card-block table-border-style">
+                            <div class="table-responsive">
+                                <div class="col-md-6">
+                                    <h5 class="mb-2">Search by Dates:</h5>
+                                    <div class="row">
+                                        <form [formGroup]="dateRangeForm" autocomplete="off" (ngSubmit)="onSubmitDateRange(dateRangeForm.value)">
+                                            <div class="input-group ">
+                                              <!-- Start Date -->
+                                              <div class="input-group-addon">From</div>
+                                          
+                                              <input
+                                              
+                                                formControlName="startDate" name="startDate"
+                                                type="date"
+                                                class="form-control validate"
+                                                required
+                                              />
+                                          
+                                              <div class="input-group-addon">To</div>
+                                          
+                                              <!-- End Date -->
+                                              <input
+                                            
+                                                formControlName="endDate" name="endDate"
+                                                type="date"
+                                                class="form-control validate"
+                                                required
+                                              />
+                                              <input
+                                            
+                                              formControlName="vatRate" name="vatRate"
+                                              type="text"
+                                              class="form-control validate" placeholder="Vat Rate"
+                                             
+                                            />
+                                          
+                                              <button type="submit" class="btn btn-primary">
+                                                <i class="fa fa-search"></i>
+                                              </button>
+                                            </div>
+                                          </form>
+                                    </div>
+                                  </div>
+                                  
+                                
+                             <div id="receiptTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-2">
+                                            <a (click)="exportToExcel()" class="btn btn-primary text-white">Export to Excel</a>
+                                            <!-- <div class="dt-buttons btn-group"> <button class="btn btn-default buttons-copy buttons-html5" tabindex="0" aria-controls="receiptTable" type="button"><span>Copy</span></button> <button class="btn btn-default buttons-csv buttons-html5" tabindex="0" aria-controls="receiptTable" type="button"><span>CSV</span></button> <button class="btn btn-default buttons-excel buttons-html5" tabindex="0" aria-controls="receiptTable" type="button"><span>Excel</span></button> <button class="btn btn-default buttons-pdf buttons-html5" tabindex="0" aria-controls="receiptTable" type="button"><span>PDF</span></button> <button class="btn btn-default buttons-print" tabindex="0" aria-controls="receiptTable" type="button"><span><i class="fa fa-print" aria-hidden="true" style="margin-top:-3px;"></i> Print</span></button> <button class="btn btn-default buttons-select-all button-selectAll" tabindex="0" aria-controls="receiptTable" type="button"><span>Select all</span></button> <button class="btn btn-default buttons-select-none button-deselectAll disabled" tabindex="0" aria-controls="receiptTable" type="button" disabled="disabled"><span>Deselect all</span></button> </div> -->
+                                        </div>
+                                        <div class="col-sm-12 col-md-8">
+                                            <div *ngIf="startDate && endDate" >
+                                                <h6>Results from {{ startDate | date: 'dd MMMM yyyy' }} to {{ endDate | date: 'dd MMMM yyyy' }} with Vat Rate {{vatRate}} </h6>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-2">
+                                            <div id="receiptTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="receiptTable"></label></div>
+                                        </div>
+                                    </div>
+                                <table
+                                    class="table table-hover table-striped table-sm"
+                                    id="salesReportTable">
+                                    <div *ngIf="isLoading" class="loader-container ">
+                                        <div class="spinner"></div>
+                                    </div>
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <input type="checkbox" (change)="selectAll($event)" />
+                                            </th>
+                                            <th>Invoice No</th>
+                                            <th>Z Number</th>
+                                            <th>Fiscal Code</th>
+                                            <th>Receipt Date</th>
+                                            <th>NET Amount</th>
+                                            <th>Tax Amount</th>
+                                            <th>Payment Amount</th>
+                                            <th>Vat Rate</th>
+                                            <th>Payment Type</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      
+                                        
+                                        <tr *ngFor="let salesItem of salesItems; let index = index">
+                                            <td>
+                                                <input 
+                                                    type="checkbox" 
+                                                    [value]="salesItem" 
+                                                    (change)="onItemCheck($event, salesItem)" 
+                                                    [checked]="selectedItems.includes(salesItem)" />
+                                            </td>
+                                            <td>{{ salesItem.referenceNo }}</td>
+                                            <td>{{ salesItem.znumber }}</td>
+                                            <td>{{ salesItem.fiscalCode }}</td>
+                                            <td>{{ salesItem.datetime | date: 'dd MMMM yyyy, HH:mm' }}</td>
+                                            <td>{{ salesItem.nettamount | number: '1.2-2' }}</td>
+                                            <td>{{ salesItem.taxamount | number: '1.2-2' }}</td>
+                                            <td>{{ salesItem.pmtamount | number: '1.2-2' }}</td>
+                                            <td>{{ salesItem.vatrate }}</td>
+                                            <td>{{ salesItem.pmttype }}</td>
+                                            <!-- <td class="text-center">
+                                                <a href="{{salesItem.qrCode}}" target="_blank" rel="noopener noreferrer">
+                                                    <button class="btn btn-success btn-sm">Receipt</button>
+                                                </a>
+                                            </td> -->
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="pull-right">
+                                    <nav class="pagination-container">
+                                        <ul class="pagination">
+                                            <!-- Previous page button -->
+                                            <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+                                                <a class="page-link" (click)="loadPage(currentPage - 1)" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                
+                                            <!-- Left arrow to move to previous group of pages -->
+                                            <li class="page-item" *ngIf="currentPage > 1 && displayedPages[0] > 1">
+                                                <a class="page-link" (click)="loadPage(displayedPages[0] - 1)">...</a>
+                                            </li>
+                                
+                                            <!-- Display pages dynamically (8 pages max) -->
+                                            <li class="page-item" *ngFor="let page of displayedPages" [ngClass]="{'active': currentPage === page}">
+                                                <a class="page-link" (click)="loadPage(page)">{{ page }}</a>
+                                            </li>
+                                
+                                            <!-- Right arrow to move to next group of pages -->
+                                            <li class="page-item" *ngIf="currentPage < totalPages && displayedPages[displayedPages.length - 1] < totalPages">
+                                                <a class="page-link" (click)="loadPage(displayedPages[displayedPages.length - 1] + 1)">...</a>
+                                            </li>
+                                
+                                            <!-- Next page button -->
+                                            <li class="page-item" [ngClass]="{'disabled': currentPage === totalPages}">
+                                                <a class="page-link" (click)="loadPage(currentPage + 1)" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                
+                                        <!-- Page indicator message -->
+                                        <div class="page-indicator">
+                                            <span>Page {{ currentPage }} of {{ totalPages }}</span>
+                                        </div>
+                                    </nav>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                        
+                    <!-- Basic table card end -->
+                </div>
+                <!-- Page-body end -->
+            </div>
+            <div id="styleSelector"> </div>
+        </div>
+    </div>
+</div>

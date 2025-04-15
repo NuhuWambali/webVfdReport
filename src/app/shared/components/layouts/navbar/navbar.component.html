@@ -1,0 +1,100 @@
+<nav class="navbar header-navbar pcoded-header noPrint ">
+    <div class="navbar-wrapper">
+        <div class="navbar-container container-fluid">
+            <ul class="nav-left">
+                <li>
+                    <div class="sidebar_toggle"><a href="#"><i class="ti-menu"></i></a></div>
+                </li>
+                <li>
+                    <h6  onclick="javascript:toggleFullScreen()" class="waves-effect waves-light text-white mt-3">
+                        <i class="ti-fullscreen"></i>
+                    </h6>
+                </li>
+                <li class="header-search">
+                    <div class="main-search morphsearch-search">
+                        <h4 class="text-light mt-2 text-uppercase">
+                           <!-- <?php 
+                           if($company->trade_name_status=='1'){ --> 
+                           {{this.companyName}}
+                                    <span class='text-danger'>({{this.packageName}} Package)</span>TIN {{this.companyTin}}
+                                    <!-- )";
+                            } -->
+                                   
+                        </h4>
+                    </div>
+                </li>
+
+            </ul>
+            <ul class="nav-right">
+                <!-- @php $locale = session()->get('locale'); @endphp -->
+                <li class="nav-item dropdown" style="margin-right: -30px !important;">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        <!-- @switch($locale)
+                            @case('us') -->
+                            <img src="assets/images/flags/uk.png"> English
+                       
+                        <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" sytyle="z-index:100" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item text-dark" href="lang/en"><img src="assets/images/flags/uk.png"> English</a>
+                        <a class="dropdown-item text-dark" href="lang/sw"><img src="assets/images/flags/tz.png"> Swahili</a>
+                    </div>
+                </li>
+
+                <li class="user-profile header-notification" style="margin-right: -30px !important;">
+                    <h6 class="waves-effect waves-light mt-3 text-white">
+                        <!-- {{-- <img src="assets/images/avatar-4.jpg" class="img-radius" alt=""> --}} -->
+                        <span><i class="fa fa-question-circle" style="font-size: 19px;"></i> Support</span>
+                        <i class="ti-angle-down" style="margin-left: 3px;"></i>
+                    </h6>
+                    <!-- <?php $support = DB::table('setting')->first(); ?> -->
+                    <ul class="show-notification profile-notification">
+                        <li class="waves-effect waves-light">
+                            <i class="fa fa-map-pin"></i> Livingstone/Msimbazi Street, Al Falah (KFC) Building, Fourth Floor
+                        </li>                  
+                        <li class="waves-effect waves-light">
+                            <i class="fa fa-envelope" style="font-size: 12px;"></i> Email info@webtechnologies.co.tz
+                        </li>
+                        <li class="waves-effect waves-light">
+                            <i class="fa fa-mobile" style="font-size: 16px;"></i>Phone Number +255 765 222 444
+                        </li>                   
+                        <li class="waves-effect waves-light">
+                            <i class="fa fa-mobile" style="font-size: 16px;"></i> Mobile (Office): +255 765 222 444 | +255 656 222 444 (24 hours calls accepted)
+                        </li>                     
+                        <li class="waves-effect waves-light">
+                            <i class="fa fa-phone" style="font-size: 12px;"></i> Tel: +255 22 2182912
+                        </li>
+                    </ul>
+                </li>
+                
+                <li class="user-profile header-notification  ml-3" style="margin-top:1.3em">
+                    <h6 class="waves-effect waves-light">
+                        <!-- {{-- <img src="assets/images/avatar-4.jpg" class="img-radius" alt=""> --}} -->
+                        <span class="text-white"><i class="fa fa-user-circle-o mr-2" style="font-size: 16px;"></i>{{this.username}}</span>
+                        <i class="ti-angle-down" style="margin-left: 3px;"></i>
+                    </h6>
+                    <ul class="show-notification profile-notification">
+                        <li class="waves-effect waves-light">
+                            <i class="fa fa-user-circle-o"></i> UserName: {{this.username}}
+                        </li>                  
+                        <li class="waves-effect waves-light">
+                            <!-- {{--  <?php $userRole = Auth::user()->roles()->first(); ?>
+                            <i class="ti-layout-sidebar-left" style="font-size: 12px;"></i> Role: {{$userRole->name}}  --}} -->
+                        </li>     
+                        <li class="waves-effect waves-light">
+                            <a href="/change-password">
+                                <i class="fa fa-lock" style="font-size: 12px;"></i> Change Password
+                            </a>
+                        </li>            
+                        <li class="waves-effect waves-light">
+                            <a  class="text-light text-center m-2 p-2 bg-primary" (click)="logout()">
+                                <i class="fa fa-sign-out"  ></i> Logout
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

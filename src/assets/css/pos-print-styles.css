@@ -1,0 +1,62 @@
+.pos-body {
+    width: 10cm;
+    height: auto; 
+    font-size: 17px !important;   
+    margin: 0 auto;  
+    font-family:Verdana, Geneva, sans-serif;
+    }
+    #pr, #prK{
+        display: none;
+    }
+    table {
+    -fs-table-paginate: paginate;
+    font-family:Verdana, Geneva, sans-serif;
+    }
+    .pos-page {
+    margin: 0;
+    border: initial;
+    border-radius: initial;
+    width: initial;
+    min-height: initial;
+    box-shadow: initial;
+    background: initial;
+    font-family:Verdana, Geneva, sans-serif;
+    }
+    .pos-page {
+    width: 12cm;
+    /* width: 13.5cm; */
+    height: auto; 
+    /* margin: 10mm auto; */
+    margin: 10mm auto;
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    font-weight: normal;
+    font-size: 12px !important;
+    font-family:Verdana, Geneva, sans-serif;
+    }
+    .removeborder {border:none; }
+    .form-horizontal,label{
+    font-weight: normal;
+    font-size: 12px !important;
+    font-family:Verdana, Geneva, sans-serif;
+    }
+    .testing {
+    display: block;
+    font-family:Verdana, Geneva, sans-serif;
+    /* page-break-after: always !important;*/
+    }
+    .tableStyle {
+    page-break-after: always !important;
+    font-family:Verdana, Geneva, sans-serif;
+    }
+    .tableStyle:last-child {
+    page-break-after: none;
+    font-family:Verdana, Geneva, sans-serif;
+    }
+    .pos-page table tr td  {   padding:2px; font-family:Verdana, Geneva, sans-serif; }
+    .form-horizontal,label{
+    font-weight: normal;
+    font-size: 12px !important;
+    font-family:Verdana, Geneva, sans-serif;
+    }
+    .grandtotalFont { font-size:14em "tahoma"; }

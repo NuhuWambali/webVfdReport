@@ -1,0 +1,40 @@
+.pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.page-indicator {
+    margin-left: 15px;
+    font-size: 14px;
+    color: #555;
+}
+
+.loader-container {
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    z-index:100000!important;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding:5em 0em;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3; /* Light gray background */
+    border-top: 4px solid #17cd39; /* Blue color for spinner */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 2s linear infinite;
+}
+
+/* Keyframes for spinner animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
