@@ -165,9 +165,9 @@ export class SalesReportListComponent {
           item.znumber,
           item.fiscalCode,
           item.dateTime.replace('T', ' '),
-          Number(item.totalAmountTaxEx),    // ✅ keep as number
-          Number(item.totalTaxAmount),      // ✅ keep as number
-          Number(item.totalAmountTaxInc),   // ✅ keep as number
+          Number(item.totalAmountTaxEx),    
+          Number(item.totalTaxAmount),      
+          Number(item.totalAmountTaxInc),   
           item.customerName,
           item.customerID,
         ]);
