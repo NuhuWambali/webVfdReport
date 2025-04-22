@@ -92,6 +92,7 @@
                                                     <th>TAX AMOUNT_C</th>
                                                     <th>NET AMOUNT_E</th>
                                                     <th>TAX AMOUNT_E</th>
+                                                    <th>Z REPORT DATE</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -109,6 +110,7 @@
                                                     <td>{{ zReport.taxAmountC | number: '1.2-2' }}</td>
                                                     <td>{{ zReport.nettAmountE | number: '1.2-2' }}</td>
                                                     <td>{{ zReport.taxAmountE | number: '1.2-2' }}</td>
+                                                    <td>{{ formatZReportDate(zReport.znumber) }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

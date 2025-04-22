@@ -146,6 +146,7 @@ export class ZReportListComponent {
   
         const columnHeaders = [
           'Z Number',
+          'Z Report Date', // New column
           'DAILY_TOTAL_AMOUNT',
           'GROSS',
           'TICKETFISCAL',
@@ -157,9 +158,9 @@ export class ZReportListComponent {
           'TAX AMOUNT_E',
         ];
   
-        // Don't use toLocaleString() — just raw numbers for Excel to treat as numbers
         const formattedData = this.selectedItems.map(item => [
           item.znumber,
+          this.formatZReportDate(item.znumber), // Format and include Z report date
           Number(item.dailyTotalAmount),
           item.gross,
           item.ticketsFiscal,
@@ -177,7 +178,7 @@ export class ZReportListComponent {
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Z Report');
   
-        // Style the title row
+        // Merge and style the title
         ws['A1'].s = {
           font: { bold: true, sz: 14 },
           alignment: { horizontal: 'center' }
@@ -291,7 +292,16 @@ onSubmitDateRange(dateRangeForm: any): void {
 
   
   
-
+  formatZReportDate(znumber: string): string {
+    if (!znumber || znumber.length !== 8) return znumber;
+  
+    const year = znumber.substring(0, 4);
+    const month = znumber.substring(4, 6);
+    const day = znumber.substring(6, 8);
+  
+    return `${day}-${month}-${year}`;
+  }
+  
   
 
 
