@@ -145,8 +145,9 @@ export class ZReportListComponent {
         const reportTitle = [`Z Report - ${currentDate}`];
   
         const columnHeaders = [
-          'Z Number',
-          'Z Report Date', // New column
+          'Z REPORT DATE', 
+          'Z NUMBER',
+        
           'DAILY_TOTAL_AMOUNT',
           'GROSS',
           'TICKETFISCAL',
@@ -159,8 +160,8 @@ export class ZReportListComponent {
         ];
   
         const formattedData = this.selectedItems.map(item => [
+          this.formatZReportDate(item.znumber),
           item.znumber,
-          this.formatZReportDate(item.znumber), // Format and include Z report date
           Number(item.dailyTotalAmount),
           item.gross,
           item.ticketsFiscal,
